@@ -33,13 +33,7 @@ function calculateTime(time_start, time_end) {
   }
   const index_start = timeList.indexOf(time_start);
   const index_end = timeList.indexOf(time_end);
-  timeList = timeList.slice(index_start, index_end + 1);
-
-  result = [];
-  timeList.forEach((elem) => {
-    result.push({ hour: elem, patientId: "", patient: "", description: "" });
-  });
-  return result;
+  return timeList.slice(index_start, index_end + 1);
 }
 
 function calculateDate(date_start, date_end, doctorId) {
@@ -49,7 +43,7 @@ function calculateDate(date_start, date_end, doctorId) {
     d <= new Date(date_end).addHours(2);
     d.setDate(d.getDate() + 1)
   ) {
-    dateList.push({ doctorId: doctorId, date: new Date(d), hours: [] });
+    dateList.push(new Date(d));
   }
   return dateList;
 }
@@ -65,6 +59,7 @@ Date.prototype.addHours = function (h) {
 const Specialists = db.collection("Specialists");
 const Users = db.collection("Users");
 const Timetable = db.collection("Timetable");
+
 
 // ======================== shell =======================
 
@@ -150,8 +145,10 @@ app.get("/timetable", async (req, res) => {
 
   let doctorName = await doctor(doctorId);
 
+
+
   Timetable.find({ doctorId: doctorId })
-    .sort({ date: 1 })
+    .sort({ date: 1, hour: 1 })
     .toArray((error, day) => {
       if (error) throw error;
       res.send({
@@ -171,37 +168,12 @@ app.post("/timetable", async (req, res) => {
   timeList = calculateTime(hour_start, hour_end);
   dateList = calculateDate(date_start, date_end, doctorId);
 
-  dateList.forEach((elem) => {
-    Timetable.updateOne(
-      { date: elem.date },
-      { $setOnInsert: elem },
-      { upsert: true }
-    );
-  });
 
-  Timetable.find({
-    doctorId: doctorId,
-    date: {
-      $gte: new Date(date_start),
-      $lte: new Date(date_end).addHours(2),
-    },
-  }).forEach(
-    (doc) => {
-      timeList.forEach((elem) => {
-        Timetable.updateMany(
-          { _id: doc._id, "hours.hour": { $nin: [elem.hour] } },
-          { $push: { hours: elem } }
-        );
-      });
-    },
-    (error, result) => {
-      if (error) throw error;
-      Timetable.aggregate([{ $match: {} }, { $unwind: '$hours' }, { $sort: { "hours.hour": 1 } }]);
-      res.send(result);
-    }
-  );
-
-  
+  dateList.forEach(date => {
+    timeList.forEach(time => {
+      Timetable.insertOne({ doctorId: doctorId, patientId: "", date: date, hour: time, patient: "", description: "" })
+    })
+  })
 });
 
 app.delete("/timetable", async (req, res) => {

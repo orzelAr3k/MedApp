@@ -7,15 +7,15 @@
 
   <div class="timetable">
     <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
-        <mat-tab *ngFor="let element of DATA; let index = index" [label]="element.date.toLocaleDateString()">
+        <mat-tab *ngFor="let date of dateList; let index = index" [label]="date">
 
             <mat-selection-list #hours [multiple]="false">
-                <mat-list-option *ngFor="let appointment of element.hours" [value]="appointment">
+                <mat-list-option *ngFor="let appointment of DATA[date]" [value]="appointment">
                     <mat-grid-list cols="4" rowHeight="4:1">
                         <mat-grid-tile><b>{{appointment.hour}}</b></mat-grid-tile>
                         <mat-grid-tile>Pacjent: {{appointment.patient}}</mat-grid-tile>
                         <mat-grid-tile>{{appointment.description}}</mat-grid-tile>
-                        <mat-grid-tile><button mat-button (click)="deleteSchedule(element.date, appointment)"><mat-icon>delete</mat-icon></button></mat-grid-tile>
+                        <mat-grid-tile><button mat-button><mat-icon>delete</mat-icon></button></mat-grid-tile>
                     </mat-grid-list>
                 </mat-list-option>
             </mat-selection-list>

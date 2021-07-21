@@ -20,7 +20,8 @@ export class TimetableComponent implements OnInit {
 
   selected = new FormControl(0);
 
-  DATA: Appointment[] = [];
+  DATA: Record<string, Appointment[]> = {};
+  dateList: string[] = [];
 
   constructor(
     public route: ActivatedRoute,
@@ -35,16 +36,18 @@ export class TimetableComponent implements OnInit {
 
     this.timelineService.getTimeline(this.doctorId).subscribe((data) => {
       this.doctorName = data.doctorName.join(' ');
-      this.DATA.length = 0;
       data.day.forEach((day: any) => {
-        this.DATA.push({
-          date: new Date(day.date),
-          hours: [],
-        });
-        day.hours.forEach((e: any) => {
-          this.DATA[this.DATA.length - 1].hours.push(e);
-        });
+        let date = new Date(day.date).toLocaleDateString();
+        if (!this.dateList.includes(date)) {
+          this.dateList.push(date);
+        }
+        if (!this.DATA[date]) {
+          this.DATA[date] = [];
+        }
+        this.DATA[date].push({ hour: day.hour, patient: "", description: "" })
       });
+      console.log(this.dateList);
+      console.log(this.DATA);
     });
   }
 
@@ -76,6 +79,7 @@ export class TimetableComponent implements OnInit {
 }
 
 export interface Appointment {
-  date: Date;
-  hours: Array<{ hour: string; patient: string; description: string }>;
+  hour: string, 
+  patient: string, 
+  description: string, 
 }

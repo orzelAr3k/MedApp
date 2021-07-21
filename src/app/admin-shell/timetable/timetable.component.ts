@@ -36,6 +36,9 @@ export class TimetableComponent implements OnInit {
 
     this.timelineService.getTimeline(this.doctorId).subscribe((data) => {
       this.doctorName = data.doctorName.join(' ');
+      this.dateList.length = 0;
+      this.DATA = {};
+
       data.day.forEach((day: any) => {
         let date = new Date(day.date).toLocaleDateString();
         if (!this.dateList.includes(date)) {
@@ -44,7 +47,7 @@ export class TimetableComponent implements OnInit {
         if (!this.DATA[date]) {
           this.DATA[date] = [];
         }
-        this.DATA[date].push({ hour: day.hour, patient: "", description: "" })
+        this.DATA[date].push({date: day.date, hour: day.hour, patient: "", description: "" })
       });
       console.log(this.dateList);
       console.log(this.DATA);
@@ -70,15 +73,15 @@ export class TimetableComponent implements OnInit {
     });
   }
 
-  deleteSchedule(date: Date, appointment: any) {
-    const result: any = {date: date, appointment: appointment };
-    this.timelineService.deleteAppointment(this.doctorId, result).subscribe((data) => {
+  deleteSchedule(appointment: Appointment) {
+    this.timelineService.deleteAppointment(this.doctorId, appointment).subscribe((data) => {
       this.ngOnInit();
     });
   }
 }
 
 export interface Appointment {
+  date: Date;
   hour: string, 
   patient: string, 
   description: string, 

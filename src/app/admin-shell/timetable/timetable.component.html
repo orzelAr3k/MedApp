@@ -15,7 +15,7 @@
                         <mat-grid-tile><b>{{appointment.hour}}</b></mat-grid-tile>
                         <mat-grid-tile>Pacjent: {{appointment.patient}}</mat-grid-tile>
                         <mat-grid-tile>{{appointment.description}}</mat-grid-tile>
-                        <mat-grid-tile><button mat-button><mat-icon>delete</mat-icon></button></mat-grid-tile>
+                        <mat-grid-tile><button mat-button (click)="deleteSchedule(appointment)"><mat-icon>delete</mat-icon></button></mat-grid-tile>
                     </mat-grid-list>
                 </mat-list-option>
             </mat-selection-list>

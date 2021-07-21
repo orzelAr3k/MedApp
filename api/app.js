@@ -179,15 +179,13 @@ app.post("/timetable", async (req, res) => {
 app.delete("/timetable", async (req, res) => {
   const doctorId = req.query.id;
   const date = req.body.payload.date;
-  const appointment = req.body.payload.appointment;
+  const hour = req.body.payload.hour;
 
-  Timetable.updateOne(
+  Timetable.findOne(
     { doctorId: doctorId, date: new Date(date) },
-    { $pull: { hours: appointment } },
     (error, result) => {
       if (error) throw error;
-      res.send(result);
-      Timetable.deleteMany({ doctorId: doctorId, hours: [] });
+      console.log(result);
     }
   );
 });

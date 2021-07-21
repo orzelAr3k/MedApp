@@ -14,7 +14,7 @@ export class SearchPageComponent implements OnInit {
 
 
   selected = new FormControl(0);
-  DATA: Appointment[] = [];
+  DATA: Record<string, Appointment[]> = {};
   dateList: string[] = [];
 
   constructor(
@@ -27,17 +27,19 @@ export class SearchPageComponent implements OnInit {
     this.role = this.loginStatusService.role;
 
     this.searchService.findVisit().subscribe((data) => {
-      this.DATA.length = 0;
       this.dateList.length = 0;
-      data.forEach((elem: any) => {
-        let date = new Date(elem.date).toLocaleDateString();
+      this.DATA = {};
+
+      data.day.forEach((day: any) => {
+        let date = new Date(day.date).toLocaleDateString();
         if (!this.dateList.includes(date)) {
           this.dateList.push(date);
         }
-
-        this.DATA.push(elem);
+        if (!this.DATA[date]) {
+          this.DATA[date] = [];
+        }
+        this.DATA[date].push({date: day.date, hour: day.hour, patient: "", description: "" })
       });
-      console.log(this.dateList);
     });
   }
 
@@ -49,5 +51,7 @@ export class SearchPageComponent implements OnInit {
 
 export interface Appointment {
   date: Date;
-  hours: Array<{ hour: string; patient: string; description: string }>;
+  hour: string, 
+  patient: string, 
+  description: string, 
 }

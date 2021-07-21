@@ -15,12 +15,6 @@
       <mat-form-field appearance="fill">
         <mat-label>Specjalizacja</mat-label>
         <mat-select formControlName="specialization" required multiple>
-          <mat-select-trigger>
-            {{specialization.value ? specialization.value[0] : ''}}
-            <span *ngIf="specialization.value?.length > 1">
-              (+{{specialization.value.length - 1}} {{specialization.value?.length === 2 ? 'other' : 'others'}})
-            </span>
-          </mat-select-trigger>
           <mat-option *ngFor="let specialization of specializationList" [value]="specialization">{{specialization}}</mat-option>
         </mat-select>
       </mat-form-field>

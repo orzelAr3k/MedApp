@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { LoginStatusService } from '../services/login-status.service';
 
+import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -22,7 +25,7 @@ export class LoginPageComponent implements OnInit {
   hide = true;
 
   constructor( private authService: AuthService, private loginStatusService: LoginStatusService,
-    private router: Router, fb: FormBuilder) {
+    private router: Router, fb: FormBuilder, public dialog: MatDialog,) {
       this.form = fb.group({
         email: this.email.value,
         password: this.password.value,
@@ -41,7 +44,6 @@ export class LoginPageComponent implements OnInit {
 
   login() {
     this.authService.login(this.form.value).subscribe((res) => {
-      console.log(res);
       if (res.info === true && res.person === "patient") {
         this.loginStatusService.login_status = res.info;
         this.loginStatusService.role = res.person;
@@ -51,7 +53,11 @@ export class LoginPageComponent implements OnInit {
         this.loginStatusService.role = res.person;
         this.router.navigate(['home/lekarz']);
       } else {
-        console.log("error")
+        const dialogRef = this.dialog.open(ErrorDialogComponent, {
+          width: '400px',
+        });
+    
+        dialogRef.afterClosed().subscribe();
       }
     })
   }

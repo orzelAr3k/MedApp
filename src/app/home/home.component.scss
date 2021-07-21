@@ -1,0 +1,86 @@
+$base-color: #eeeeee;
+$gradient-first: #65dbcf;
+$gradient-second: #6cdbed;
+
+.navbar {
+  background-image: linear-gradient(
+    to right,
+    $gradient-first,
+    $gradient-second
+  );
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: flex-start;
+
+  ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    li {
+      display: inline;
+      float: left;
+      color: white;
+      padding: 10px;
+
+      a {
+        display: block;
+        text-decoration: none;
+        color: white;
+      }
+    }
+  }
+
+  .login {
+    margin-left: auto;
+    justify-self: felx-end;
+    font-size: 16px;
+    color: white;
+
+    a {
+      margin: 10px;
+      text-decoration: none;
+      color: white;
+
+      &:hover {
+        color: #eeeeee;
+      }
+    }
+  }
+
+  .logout-user {
+    margin-left: auto;
+    justify-self: felx-end;
+    color: white;
+
+    button {
+      font-size: 16px;
+      color: white;
+      background: none;
+      text-decoration: none;
+      border: none;
+
+      &:hover {
+        color: #eeeeee;
+      }
+    }
+  }
+
+  .logout-doctor {
+    margin-left: auto;
+    justify-self: felx-end;
+
+    button {
+      font-size: 16px;
+      color: white;
+      background: none;
+      text-decoration: none;
+      border: none;
+
+      &:hover {
+        color: #eeeeee;
+      }
+    }
+  }
+}

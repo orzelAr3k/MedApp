@@ -1,0 +1,14 @@
+.container {
+    padding: 10px 20px 10px 20px;
+
+    mat-form-field {
+        margin-left: 20px;
+        width: 220px;
+    }
+
+    .valid-form {
+        mat-form-field {
+            margin-top: 40px;
+        }
+    }
+}

@@ -1,0 +1,49 @@
+<mat-toolbar class="navbar">
+    <ul>
+      <li>
+        <a routerLink="pacjent" routerLinkActive="active">STREFA PACJENTA</a>
+      </li>
+      <li>|</li>
+      <li>
+        <a routerLink="lekarz" routerLinkActive="active">STREFA LEKARZA</a>
+      </li>
+    </ul>
+    <div class="login" *ngIf="!login_status">
+      <a routerLink="../signup" routerLinkActive="active">Zarejestruj się</a>
+      <span> | </span>
+      <a routerLink="../login" routerLinkActive="active">Zaloguj się</a>
+    </div>
+
+    <div class="logout-user" *ngIf="role==='patient'">
+      <button routerLink="" routerLinkActive="active">Moje wizyty</button>
+      <span> | </span>
+      <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
+    </div>
+
+    <div class="logout-doctor" *ngIf="role==='doctor'">
+      <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
+    </div>
+
+  </mat-toolbar>
+
+
+
+  <div class="container">
+    <div class="timetable">
+      <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+          <mat-tab *ngFor="let element of DATA; let index = index" [label]="dateList[index]">
+  
+              <mat-selection-list #hours [multiple]="false">
+                  <mat-list-option *ngFor="let appointment of element.hours" [value]="appointment">
+                      <mat-grid-list cols="4" rowHeight="4:1">
+                          <mat-grid-tile><b>{{appointment.hour}}</b></mat-grid-tile>
+                          <mat-grid-tile>Pacjent: {{appointment.patient}}</mat-grid-tile>
+                          <mat-grid-tile>{{appointment.description}}</mat-grid-tile>
+                          <mat-grid-tile><button mat-button><mat-icon>delete</mat-icon></button></mat-grid-tile>
+                      </mat-grid-list>
+                  </mat-list-option>
+              </mat-selection-list>
+          </mat-tab>
+      </mat-tab-group>
+    </div>  
+  </div>

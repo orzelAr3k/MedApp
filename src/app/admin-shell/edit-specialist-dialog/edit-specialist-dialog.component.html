@@ -1,0 +1,23 @@
+<h1 mat-dialog-title>Wprowadź dane:</h1>
+<mat-dialog-content>
+  <mat-form-field appearance="fill">
+    <mat-label>Imię</mat-label>
+    <input matInput [(ngModel)]="data.name">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Nazwisko</mat-label>
+    <input matInput [(ngModel)]="data.surname">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Specjalizacja</mat-label>
+    <input matInput [(ngModel)]="data.specialization">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Opis</mat-label>
+    <input matInput [(ngModel)]="data.description">
+  </mat-form-field>
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Zamknij</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Zastosuj</button>
+</div>

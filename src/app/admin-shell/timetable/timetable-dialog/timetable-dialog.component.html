@@ -1,0 +1,39 @@
+<div class="container">
+  <h1 mat-dialog-title>Wprowadź dane:</h1>
+<mat-dialog-content>
+
+    <mat-form-field appearance="fill">
+        <mat-label>Enter a date range</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate placeholder="Start date" [(ngModel)]="data.date_start">
+          <input matEndDate placeholder="End date" [(ngModel)]="data.date_end">
+        </mat-date-range-input> 
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      
+        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+    </mat-form-field>
+
+
+            <mat-form-field appearance="fill">
+                <mat-label>Od</mat-label>
+                <mat-select [(value)]="data.hour_start">
+                  <mat-option *ngFor="let time of timeList" value={{time}}>{{time}}</mat-option>
+                </mat-select>
+            </mat-form-field> 
+
+     
+            <mat-form-field appearance="fill">
+                <mat-label>Do</mat-label>
+                <mat-select [(value)]="data.hour_end">
+                  <mat-option *ngFor="let time of timeList" value={{time}}>{{time}}</mat-option>
+                </mat-select>
+            </mat-form-field> 
+
+</mat-dialog-content>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Zamknij</button>
+  <button mat-button [mat-dialog-close]="data" cdkFocusInitial>Dodaj</button>
+</div>
+</div>

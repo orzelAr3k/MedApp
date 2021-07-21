@@ -1,0 +1,44 @@
+.container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.img-login {
+  width: 40vw;
+  height: 100vh;
+  background: lightblue;
+}
+
+.rest-login {
+  width: 50vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+
+  .signup-form {
+    width: 30vw;
+    margin-left: 100px;
+    display: flex;
+    flex-direction: column;
+
+    .title {
+      color: lightblue;
+      font-size: 30px;
+    }
+
+    form {
+      mat-form-field {
+        margin-top: 20px;
+        width: 100%;
+      }
+    }
+
+    button {
+      background: #eeeeee;
+
+      &:hover {
+        background: lightblue;
+      }
+    }
+  }
+}

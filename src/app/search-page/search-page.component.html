@@ -29,15 +29,69 @@
 
 
   <div class="container">
+
+    <form [formGroup]="form">
+ 
+      <mat-form-field appearance="fill">
+        <mat-label>Miasto</mat-label>
+        <mat-select formControlName="city" multiple>
+          <mat-option *ngFor="let city of cityList" [value]="city">{{city}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Specjalizacja</mat-label>
+        <mat-select formControlName="specialization">
+          <mat-option *ngFor="let specialization of specializationList" [value]="specialization">{{specialization}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Wprowadź datę</mat-label>
+        <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
+          <input matStartDate formControlName="dateStart" placeholder="Od dnia">
+          <input matEndDate formControlName="dateEnd" placeholder="Do dnia">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+        <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Godzina od:</mat-label>
+        <mat-select formControlName="timeStart">
+          <mat-option *ngFor="let timeStart of timeList" [value]="timeStart">{{timeStart}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Godzina od:</mat-label>
+        <mat-select formControlName="timeEnd">
+          <mat-option *ngFor="let timeEnd of timeList" [value]="timeEnd">{{timeEnd}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+
+      <button mat-button class="btn-search" routerLink="/search" routerLinkActive="active"
+      (click)="sendData()">Szukaj</button>
+    </form>
+
+    
+
+    <div class="nodeadlines" *ngIf="dateList.length == 0"><h1>Brak terminów</h1></div>
     <div class="timetable">
       <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
           <mat-tab *ngFor="let date of dateList; let index = index" [label]="date">
   
               <mat-selection-list #hours [multiple]="false">
                   <mat-list-option *ngFor="let appointment of DATA[date]" [value]="appointment">
-                      <mat-grid-list cols="4" rowHeight="4:1">
+                      <mat-grid-list cols="5" rowHeight="5:1">
                           <mat-grid-tile><b>{{appointment.hour}}</b></mat-grid-tile>
-                          <mat-grid-tile>Pacjent: {{appointment.patient}}</mat-grid-tile>
+                          <mat-grid-tile><span>Lekarz: <b>{{appointment.doctor_name}} {{appointment.doctor_surname}}</b></span></mat-grid-tile>
+                          <mat-grid-tile><span>Miasto: <b>{{appointment.city}}</b></span></mat-grid-tile>
                           <mat-grid-tile>{{appointment.description}}</mat-grid-tile>
                           <mat-grid-tile><button mat-button>Umów się!</button></mat-grid-tile>
                       </mat-grid-list>

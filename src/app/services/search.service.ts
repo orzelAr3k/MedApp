@@ -12,7 +12,6 @@ export class SearchService {
   }
 
   findVisit() {
-    console.log(this.data);
     return this.webReqService.get('search', this.data);
   }
 

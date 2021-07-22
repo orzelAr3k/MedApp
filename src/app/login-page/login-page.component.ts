@@ -47,16 +47,17 @@ export class LoginPageComponent implements OnInit {
       if (res.info === true && res.person === "patient") {
         this.loginStatusService.login_status = res.info;
         this.loginStatusService.role = res.person;
+        this.loginStatusService.ID = res.patientId;
         this.router.navigate(['']);
       } else if (res.info === true && res.person === "doctor"){
         this.loginStatusService.login_status = res.info;
         this.loginStatusService.role = res.person;
+        this.loginStatusService.ID = res.doctorId;
         this.router.navigate(['home/lekarz']);
       } else {
         const dialogRef = this.dialog.open(ErrorDialogComponent, {
           width: '400px',
         });
-    
         dialogRef.afterClosed().subscribe();
       }
     })

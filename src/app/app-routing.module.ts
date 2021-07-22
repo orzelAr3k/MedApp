@@ -9,6 +9,7 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { TimetableComponent } from './admin-shell/timetable/timetable.component';
 import { SearchPageComponent } from './search-page/search-page.component';
+import { LoginStatusService } from './services/login-status.service';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home/pacjent', pathMatch: 'full'},

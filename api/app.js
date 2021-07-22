@@ -2,7 +2,7 @@ const express = require("express");
 const app = express();
 const { db } = require("./db/mongo");
 const bodyParser = require("body-parser");
-const { ObjectId, Data } = require("mongodb");
+const { ObjectId } = require("mongodb");
 
 const PORT = 3000;
 
@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 // Funkcje pomocnicze
 
 function calculateTime(time_start, time_end) {
-  if (time_start === time_end) return [time_start]
+  if (time_start === time_end) return [time_start];
   else {
     let timeList = [];
     for (let i = 0; i < 24; i++) {
@@ -36,11 +36,11 @@ function calculateTime(time_start, time_end) {
     const index_start = timeList.indexOf(time_start);
     const index_end = timeList.indexOf(time_end);
     return timeList.slice(index_start, index_end + 1);
-  } 
+  }
 }
 
 function calculateDate(date_start, date_end) {
-  if (date_start === date_end) return [date_start]
+  if (date_start === date_end) return [date_start];
   else {
     let dateList = [];
     for (
@@ -111,6 +111,7 @@ app.patch("/specialists", async (req, res) => {
   const specialization = req.body.payload.specialization;
   const description = req.body.payload.description;
 
+
   Specialists.updateOne(
     { _id: ObjectId(id) },
     {
@@ -130,6 +131,7 @@ app.patch("/specialists", async (req, res) => {
 
 app.delete("/specialists", async (req, res) => {
   const id = req.query.id;
+
   Specialists.deleteOne({ _id: ObjectId(id) }, (error, specialist) => {
     if (error) throw error;
     res.send(specialist);
@@ -169,18 +171,23 @@ app.post("/timetable", async (req, res) => {
   const hour_start = req.body.payload.hour_start;
   const hour_end = req.body.payload.hour_end;
 
+  console.log(doctorId);
+
   timeList = calculateTime(hour_start, hour_end);
   dateList = calculateDate(date_start, date_end);
 
   dateList.forEach((date) => {
     timeList.forEach((time) => {
+      t = time.split(":");
+      d = date;
+      d.setHours(parseInt(t[0]) + 2, parseInt(t[1]));
       Timetable.updateOne(
-        { date: date, time: time },
+        { doctorId: doctorId, date: new Date(d), time: time },
         {
           $setOnInsert: {
             doctorId: doctorId,
             patientId: "",
-            date: date,
+            date: new Date(d),
             hour: time,
             patient: "",
             description: "",
@@ -190,7 +197,7 @@ app.post("/timetable", async (req, res) => {
       );
     });
   });
-  res.send({info: "done"});
+  res.send({ info: "done" });
 });
 
 app.delete("/timetable", async (req, res) => {
@@ -217,34 +224,68 @@ app.get("/search", async (req, res) => {
   const dateStart = req.query.dateStart;
   const dateEnd = req.query.dateEnd;
 
-  const query_doctor = {};
-
-  //if (city) query_doctor.city = city;
-  //if (specialization) query_doctor.specialization = specialization;
-
-
   doctor = async (city, specialization) => {
-    return Specialists.find({ city: city }).toArray().then((specialists) => {
-      let doctorIds = [];
-      let doctors = [];
-      specialists.forEach((elem) => {
-        if (!doctorIds.includes(elem._id)) {
-          doctorIds.push(elem._id.toString());
-          doctors.push({ id: elem._id.toString(), name: elem.name, surname: elem.surname, description: elem.description });
-        }
-      })
-      return [doctorIds, doctors];
-    });
+    const query_doctor = {};
+    (city != "null" && typeof(city) != "string") ? (query_doctor.city = { $in: city }) : "";
+    (city != "null" && typeof(city) == "string") ? (query_doctor.city =  city ) : "";
+    specialization != "null"
+      ? (query_doctor.specialization = specialization)
+      : "";
+
+    return Specialists.find(query_doctor)
+      .toArray()
+      .then((specialists) => {
+        let doctorIds = [];
+        let doctors = {};
+        specialists.forEach((elem) => {
+          if (!doctorIds.includes(elem._id)) {
+            doctorIds.push(elem._id.toString());
+            doctors[elem._id.toString()] = {
+              name: elem.name,
+              surname: elem.surname,
+              city: elem.city,
+              description: elem.description,
+            }
+          }
+        });
+        return [doctorIds, doctors];
+      });
   };
 
-  const [doctorIds, doctors] = await doctor(city, specialization);
+    
 
-  let find = { doctorId: { $in: doctorIds } };
+  const [doctorIds, doctors] = await doctor(city, specialization);
+  let find = { doctorId: { $in: doctorIds }, date: { $gte: new Date() }, patient: ""};
+
+  // if (timeStart != 'null' && timeEnd != 'null' && dateStart != 'null' && dateEnd != 'null'){
+  //   ds = new Date(dateStart);
+  //   ds.setHours(parseInt(timeStart.split(":")[0]) + 2, parseInt(timeStart.split(":")[1]));
+  //   de = new Date(dateEnd);
+  //   de.setHours(parseInt(timeEnd.split(":")[0]) + 2, parseInt(timeEnd.split(":")[1]))
+  //   find.date = { $gte: ds, $lte: de}
+  // } else if (dateStart != 'null' && dateEnd != 'null' && timeStart == 'null' && timeEnd == 'null') {
+  //   ds = new Date(dateStart);
+  //   de = new Date(dateEnd);
+  //   find.date = { $gte: ds, $lte: de}
+  // } else if (dateStart != 'null' && dateEnd == 'null' && timeStart == 'null' && timeEnd == 'null') {
+    
+  // }
 
   Timetable.find(find).toArray((error, result) => {
-    res.send({day: result, doctors: doctors});
+    res.send({ day: result, doctors: doctors });
   });
 });
+
+
+
+// ========================= doctor =================================
+
+app.get('doctor', (req, res) => {
+  const id = req.query.id;
+
+});
+
+
 
 // ==================== auth ==========================================
 
@@ -258,8 +299,7 @@ app.post("/auth/login", async (req, res) => {
         if (specialist)
           return {
             info: true,
-            name: specialist.name,
-            surname: specialist.surname,
+            doctorId: specialist.doctorId,
             email: specialist.email,
             person: specialist.person,
           };
@@ -272,8 +312,7 @@ app.post("/auth/login", async (req, res) => {
       if (user)
         return {
           info: true,
-          name: user.name,
-          surname: user.surname,
+          patientId: user.patientId,
           email: user.email,
           person: user.person,
         };

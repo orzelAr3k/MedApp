@@ -49,6 +49,8 @@ export class TimetableComponent implements OnInit {
         }
         this.DATA[date].push({date: day.date, hour: day.hour, patient: "", description: "" })
       });
+
+      console.log(this.DATA);
     });
   }
 

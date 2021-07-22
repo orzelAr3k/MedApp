@@ -257,19 +257,18 @@ app.get("/search", async (req, res) => {
   const [doctorIds, doctors] = await doctor(city, specialization);
   let find = { doctorId: { $in: doctorIds }, date: { $gte: new Date() }, patient: ""};
 
-  // if (timeStart != 'null' && timeEnd != 'null' && dateStart != 'null' && dateEnd != 'null'){
-  //   ds = new Date(dateStart);
-  //   ds.setHours(parseInt(timeStart.split(":")[0]) + 2, parseInt(timeStart.split(":")[1]));
-  //   de = new Date(dateEnd);
-  //   de.setHours(parseInt(timeEnd.split(":")[0]) + 2, parseInt(timeEnd.split(":")[1]))
-  //   find.date = { $gte: ds, $lte: de}
-  // } else if (dateStart != 'null' && dateEnd != 'null' && timeStart == 'null' && timeEnd == 'null') {
-  //   ds = new Date(dateStart);
-  //   de = new Date(dateEnd);
-  //   find.date = { $gte: ds, $lte: de}
-  // } else if (dateStart != 'null' && dateEnd == 'null' && timeStart == 'null' && timeEnd == 'null') {
+  if (dateStart != 'null' && dateEnd != 'null') {
+    find.date = { $gte: new Date(dateStart), $lte: new Date(dateEnd)}
+  } else if (dateStart != 'null' && dateEnd == 'null') {
+    find.date = { $gte: new Date(dateStart)}
+  } else if (dateStart == 'null' && dateEnd != 'null') {
+    find.date = { $lte: new Date(dateEnd)}
+  }
+  
+  if (timeStart != 'null' && timeEnd != 'null') {
     
-  // }
+
+  }
 
   Timetable.find(find).toArray((error, result) => {
     res.send({ day: result, doctors: doctors });

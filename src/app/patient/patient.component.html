@@ -5,14 +5,14 @@
 
     <form [formGroup]="form">
       <div class="form-field">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Miasto</mat-label>
           <mat-select formControlName="city" multiple>
             <mat-option *ngFor="let city of cityList" [value]="city">{{city}}</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Specjalizacja</mat-label>
           <mat-select formControlName="specialization">
             <mat-option *ngFor="let specialization of specializationList" [value]="specialization">{{specialization}}
@@ -22,7 +22,7 @@
       </div>
 
       <div class="datapicker">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Wprowadź datę</mat-label>
           <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
             <input matStartDate formControlName="dateStart" placeholder="Od dnia">
@@ -37,7 +37,7 @@
       </div>
 
       <div class="form-field">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Godzina od:</mat-label>
           <mat-select formControlName="timeStart">
             <mat-option *ngFor="let timeStart of timeList" [value]="timeStart">{{timeStart}}</mat-option>

@@ -15,7 +15,7 @@
     </div>
 
     <div class="logout-user" *ngIf="role==='patient'">
-      <button routerLink="" routerLinkActive="active">Moje wizyty</button>
+      <button routerLink="myappointment" routerLinkActive="active">Moje wizyty</button>
       <span> | </span>
       <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
     </div>
@@ -32,14 +32,14 @@
 
     <form [formGroup]="form">
  
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" color="accent">
         <mat-label>Miasto</mat-label>
         <mat-select formControlName="city" multiple>
           <mat-option *ngFor="let city of cityList" [value]="city">{{city}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" color="accent">
         <mat-label>Specjalizacja</mat-label>
         <mat-select formControlName="specialization">
           <mat-option *ngFor="let specialization of specializationList" [value]="specialization">{{specialization}}
@@ -47,7 +47,7 @@
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" color="accent">
         <mat-label>Wprowadź datę</mat-label>
         <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
           <input matStartDate formControlName="dateStart" placeholder="Od dnia">
@@ -60,14 +60,14 @@
         <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" color="accent">
         <mat-label>Godzina od:</mat-label>
         <mat-select formControlName="timeStart">
           <mat-option *ngFor="let timeStart of timeList" [value]="timeStart">{{timeStart}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" color="accent">
         <mat-label>Godzina od:</mat-label>
         <mat-select formControlName="timeEnd">
           <mat-option *ngFor="let timeEnd of timeList" [value]="timeEnd">{{timeEnd}}</mat-option>
@@ -83,7 +83,7 @@
 
     <div class="nodeadlines" *ngIf="dateList.length == 0"><h1>Brak terminów</h1></div>
     <div class="timetable">
-      <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+      <mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)" color="accent">
           <mat-tab *ngFor="let date of dateList; let index = index" [label]="date">
   
               <mat-selection-list #hours [multiple]="false">
@@ -93,7 +93,7 @@
                           <mat-grid-tile><span>Lekarz: <b>{{appointment.doctor_name}} {{appointment.doctor_surname}}</b></span></mat-grid-tile>
                           <mat-grid-tile><span>Miasto: <b>{{appointment.city}}</b></span></mat-grid-tile>
                           <mat-grid-tile>{{appointment.description}}</mat-grid-tile>
-                          <mat-grid-tile><button mat-button>Umów się!</button></mat-grid-tile>
+                          <mat-grid-tile><button mat-button (click)="makeAppointment(appointment)">Umów się!</button></mat-grid-tile>
                       </mat-grid-list>
                   </mat-list-option>
               </mat-selection-list>

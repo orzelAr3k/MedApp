@@ -47,7 +47,7 @@ export class TimetableComponent implements OnInit {
         if (!this.DATA[date]) {
           this.DATA[date] = [];
         }
-        this.DATA[date].push({date: day.date, hour: day.hour, patient: "", description: "" })
+        this.DATA[date].push({date: day.date, hour: day.hour, patient: day.patient, description: day.description })
       });
 
       console.log(this.DATA);

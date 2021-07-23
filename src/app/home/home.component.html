@@ -15,7 +15,7 @@
     </div>
 
     <div class="logout-user" *ngIf="role==='patient'">
-      <button routerLink="" routerLinkActive="active">Moje wizyty</button>
+      <button routerLink="myappointment" routerLinkActive="active">Moje wizyty</button>
       <span> | </span>
       <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
     </div>

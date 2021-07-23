@@ -9,7 +9,7 @@ import { SignupPageComponent } from './signup-page/signup-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
 import { TimetableComponent } from './admin-shell/timetable/timetable.component';
 import { SearchPageComponent } from './search-page/search-page.component';
-import { LoginStatusService } from './services/login-status.service';
+import { MyAppointmentComponent } from './my-appointment/my-appointment.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home/pacjent', pathMatch: 'full'},
@@ -19,6 +19,7 @@ const routes: Routes = [
     children: [
       { path: 'pacjent', component: PatientComponent },
       { path: 'lekarz', component: DoctorComponent },
+      { path: 'myappointment', component: MyAppointmentComponent },
     ],
   },
   { path: 'shell', component: AdminShellComponent},

@@ -1,17 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { LoginStatusService } from './../services/login-status.service';
-import { DoctorService } from '../services/doctor.service';
-import { ObjectID } from 'bson';
-
-
+import { PatientService } from '../services/patient.service';
 
 @Component({
-  selector: 'app-doctor',
-  templateUrl: './doctor.component.html',
-  styleUrls: ['./doctor.component.scss']
+  selector: 'app-my-appointment',
+  templateUrl: './my-appointment.component.html',
+  styleUrls: ['./my-appointment.component.scss']
 })
-export class DoctorComponent implements OnInit {
+export class MyAppointmentComponent implements OnInit {
+
   login_status!: boolean;
   role!: string;
   ID!: string;
@@ -19,16 +17,15 @@ export class DoctorComponent implements OnInit {
   DATA: Record<string, Appointment[]> = {};
   dateList: string[] = [];
 
-
   constructor(private loginStatusService: LoginStatusService,
-    private doctorService: DoctorService,) { }
+    private patientService: PatientService,) { }
 
   ngOnInit(): void {
     this.login_status = this.loginStatusService.login_status;
     this.role = this.loginStatusService.role;
     this.ID = this.loginStatusService.ID;
 
-    this.doctorService.getDoctorTimetable(this.ID).subscribe((data) => {
+    this.patientService.getPatientTimetable(this.ID).subscribe((data) => {
       this.dateList.length = 0;
       this.DATA = {};
 
@@ -50,6 +47,7 @@ export class DoctorComponent implements OnInit {
       });
     });
   }
+
 
   cancelAppointment(appointment: Appointment) {
     this.doctorService.cancelAppointment(appointment.appointmentId).subscribe(() => {

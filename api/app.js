@@ -30,8 +30,13 @@ function calculateTime(time_start, time_end) {
   else {
     let timeList = [];
     for (let i = 0; i < 24; i++) {
-      timeList.push(`${i}:00`);
-      timeList.push(`${i}:30`);
+      if (i < 10) {
+        timeList.push(`0${i}:00`);
+        timeList.push(`0${i}:30`);
+      } else {
+        timeList.push(`${i}:00`);
+        timeList.push(`${i}:30`);
+      }
     }
     const index_start = timeList.indexOf(time_start);
     const index_end = timeList.indexOf(time_end);
@@ -111,7 +116,6 @@ app.patch("/specialists", async (req, res) => {
   const specialization = req.body.payload.specialization;
   const description = req.body.payload.description;
 
-
   Specialists.updateOne(
     { _id: ObjectId(id) },
     {
@@ -171,8 +175,6 @@ app.post("/timetable", async (req, res) => {
   const hour_start = req.body.payload.hour_start;
   const hour_end = req.body.payload.hour_end;
 
-  console.log(doctorId);
-
   timeList = calculateTime(hour_start, hour_end);
   dateList = calculateDate(date_start, date_end);
 
@@ -182,7 +184,7 @@ app.post("/timetable", async (req, res) => {
       d = date;
       d.setHours(parseInt(t[0]) + 2, parseInt(t[1]));
       Timetable.updateOne(
-        { doctorId: doctorId, date: new Date(d), time: time },
+        { doctorId: doctorId, date: new Date(d), hour: time },
         {
           $setOnInsert: {
             doctorId: doctorId,
@@ -226,8 +228,10 @@ app.get("/search", async (req, res) => {
 
   doctor = async (city, specialization) => {
     const query_doctor = {};
-    (city != "null" && typeof(city) != "string") ? (query_doctor.city = { $in: city }) : "";
-    (city != "null" && typeof(city) == "string") ? (query_doctor.city =  city ) : "";
+    city != "null" && typeof city != "string"
+      ? (query_doctor.city = { $in: city })
+      : "";
+    city != "null" && typeof city == "string" ? (query_doctor.city = city) : "";
     specialization != "null"
       ? (query_doctor.specialization = specialization)
       : "";
@@ -245,46 +249,93 @@ app.get("/search", async (req, res) => {
               surname: elem.surname,
               city: elem.city,
               description: elem.description,
-            }
+              specialization: elem.specialization,
+            };
           }
         });
         return [doctorIds, doctors];
       });
   };
 
-    
-
   const [doctorIds, doctors] = await doctor(city, specialization);
-  let find = { doctorId: { $in: doctorIds }, date: { $gte: new Date() }, patient: ""};
+  let find = {
+    doctorId: { $in: doctorIds },
+    date: { $gte: new Date() },
+    patient: "",
+  };
 
-  if (dateStart != 'null' && dateEnd != 'null') {
-    find.date = { $gte: new Date(dateStart), $lte: new Date(dateEnd)}
-  } else if (dateStart != 'null' && dateEnd == 'null') {
-    find.date = { $gte: new Date(dateStart)}
-  } else if (dateStart == 'null' && dateEnd != 'null') {
-    find.date = { $lte: new Date(dateEnd)}
+  if (dateStart != "null" && dateEnd != "null") {
+    find.date = {
+      $gte: new Date(dateStart),
+      $lte: new Date(dateEnd).addHours(24),
+    };
+  } else if (dateStart != "null" && dateEnd == "null") {
+    find.date = { $gte: new Date(dateStart) };
+  } else if (dateStart == "null" && dateEnd != "null") {
+    find.date = { $lte: new Date(dateEnd).addHours(24) };
   }
-  
-  if (timeStart != 'null' && timeEnd != 'null') {
-    
 
+  if (timeStart != "null" && timeEnd != "null") {
+    find.hour = { $gte: timeStart, $lte: timeEnd };
+  } else if (timeStart != "null" && timeEnd == "null") {
+    find.hour = { $gte: timeStart };
+  } else if (timeStart == "null" && timeEnd != "null") {
+    find.hour = { $lte: timeEnd };
   }
 
-  Timetable.find(find).toArray((error, result) => {
-    res.send({ day: result, doctors: doctors });
-  });
+  Timetable.find(find)
+    .sort({ date: 1 })
+    .toArray((error, result) => {
+      res.send({ day: result, doctors: doctors });
+    });
 });
 
+app.patch("/search", async (req, res) => {
+  const appointmentId = req.body.payload.appointmentId;
+  const patientId = req.body.payload.patientId;
+  const description = req.body.payload.description;
 
+  const patient = async (id) => {
+    return Users.findOne({ _id: ObjectId(id) }).then((patient) => {
+      return [patient.name, patient.surname];
+    });
+  };
+
+  const patientName = await patient(patientId);
+
+  Timetable.updateOne(
+    { _id: ObjectId(appointmentId) },
+    {
+      $set: {
+        patient: patientName.join(" "),
+        patientId: patientId,
+        description: description,
+      },
+    },
+    (error, result) => {
+      if (error) throw error;
+    }
+  );
+});
 
 // ========================= doctor =================================
 
-app.get('doctor', (req, res) => {
+app.get("/doctor", (req, res) => {
   const id = req.query.id;
 
+  Timetable.find({ doctorId: id, patient: { $ne: "" }, date: { $gte: new Date() } })
+    .sort({ date: 1 })
+    .toArray((err, result) => {
+      res.send(result);
+    });
 });
 
+app.patch('/doctor', (req, res) => {
+  const id = req.body.payload;
 
+  Timetable.updateOne( {_id: ObjectId(id)}, { $set: { patient: "", patientId: "", description: "" } })
+  res.send({info: "done"})
+})
 
 // ==================== auth ==========================================
 
@@ -298,7 +349,7 @@ app.post("/auth/login", async (req, res) => {
         if (specialist)
           return {
             info: true,
-            doctorId: specialist.doctorId,
+            doctorId: specialist._id,
             email: specialist.email,
             person: specialist.person,
           };
@@ -311,7 +362,7 @@ app.post("/auth/login", async (req, res) => {
       if (user)
         return {
           info: true,
-          patientId: user.patientId,
+          patientId: user._id,
           email: user.email,
           person: user.person,
         };

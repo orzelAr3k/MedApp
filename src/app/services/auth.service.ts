@@ -1,15 +1,13 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
 import { WebRequestService } from '../web-request.service';
-import { Router } from '@angular/router';
-import { shareReplay, tap } from 'rxjs/operators';
+import { Router, CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { LoginStatusService } from './login-status.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthService {
-
-  constructor(private webService: WebRequestService) { }
+export class AuthService implements CanActivate{
+  constructor(private webService: WebRequestService, private loginStatus: LoginStatusService, public router: Router) {}
 
   signup(payload: Object) {
     return this.webService.post('auth/signup', { payload });
@@ -19,4 +17,15 @@ export class AuthService {
     return this.webService.post('auth/login', { payload });
   }
 
+
+  canActivate(route: ActivatedRouteSnapshot): boolean {
+    const expectedRole = route.data.expectedRole;
+
+    if (!this.loginStatus.login_status || expectedRole !== this.loginStatus.role) {
+
+      this.router.navigate(['/login']);
+      return false;
+    }
+    return true;
+  }
 }

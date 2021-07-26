@@ -7,8 +7,8 @@
                   <mat-list-option *ngFor="let appointment of DATA[date]" [value]="appointment">
                       <mat-grid-list cols="4" rowHeight="4:1">
                           <mat-grid-tile><b>{{appointment.hour}}</b></mat-grid-tile>
-                          <mat-grid-tile><span>Pacjent: <b>{{appointment.patient_name}}</b></span></mat-grid-tile>
-                          <mat-grid-tile>Opis: {{appointment.description}}</mat-grid-tile>
+                          <mat-grid-tile><span>Doktor: <b>{{appointment.doctor_name}}</b></span></mat-grid-tile>
+                          <mat-grid-tile>Miasto: {{appointment.city}}</mat-grid-tile>
                           <mat-grid-tile><button mat-stroked-button color="accent" (click)="cancelAppointment(appointment)">Odwołaj</button></mat-grid-tile>
                       </mat-grid-list>
                   </mat-list-option>

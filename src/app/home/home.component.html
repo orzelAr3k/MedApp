@@ -20,7 +20,7 @@
       <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
     </div>
 
-    <div class="logout-doctor" *ngIf="role==='doctor'">
+    <div class="logout" *ngIf="role==='doctor'||role==='admin'">
       <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
     </div>
 

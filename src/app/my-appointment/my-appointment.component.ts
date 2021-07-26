@@ -28,8 +28,8 @@ export class MyAppointmentComponent implements OnInit {
     this.patientService.getPatientTimetable(this.ID).subscribe((data) => {
       this.dateList.length = 0;
       this.DATA = {};
-
-      data.forEach((day: any) => {
+      
+      data.appointment.forEach((day: any) => {
         let date = new Date(day.date).toLocaleDateString();
         if (!this.dateList.includes(date)) {
           this.dateList.push(date);
@@ -41,8 +41,8 @@ export class MyAppointmentComponent implements OnInit {
           appointmentId: day._id,
           date: day.date,
           hour: day.hour,
-          patient_name: day.patient,
-          description: day.description,
+          doctor_name: data.doctorName[day.doctorId].name,
+          city: data.doctorName[day.doctorId].city
         });
       });
     });
@@ -50,7 +50,7 @@ export class MyAppointmentComponent implements OnInit {
 
 
   cancelAppointment(appointment: Appointment) {
-    this.doctorService.cancelAppointment(appointment.appointmentId).subscribe(() => {
+    this.patientService.cancelAppointment(appointment.appointmentId).subscribe(() => {
       this.ngOnInit();
     });
   }
@@ -61,6 +61,6 @@ export interface Appointment {
   appointmentId: string;
   date: Date;
   hour: string;
-  patient_name: string;
-  description: string;
+  doctor_name: string;
+  city: string;
 }

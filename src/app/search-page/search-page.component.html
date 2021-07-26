@@ -1,34 +1,4 @@
-<mat-toolbar class="navbar">
-    <ul>
-      <li>
-        <a routerLink="../home/pacjent" routerLinkActive="active">STREFA PACJENTA</a>
-      </li>
-      <li>|</li>
-      <li>
-        <a routerLink="../home/lekarz" routerLinkActive="active">STREFA LEKARZA</a>
-      </li>
-    </ul>
-    <div class="login" *ngIf="!login_status">
-      <a routerLink="../signup" routerLinkActive="active">Zarejestruj się</a>
-      <span> | </span>
-      <a routerLink="../login" routerLinkActive="active">Zaloguj się</a>
-    </div>
-
-    <div class="logout-user" *ngIf="role==='patient'">
-      <button routerLink="myappointment" routerLinkActive="active">Moje wizyty</button>
-      <span> | </span>
-      <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
-    </div>
-
-    <div class="logout-doctor" *ngIf="role==='doctor'">
-      <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
-    </div>
-
-  </mat-toolbar>
-
-
-
-  <div class="container">
+<div class="container">
 
     <form [formGroup]="form">
  
@@ -75,7 +45,7 @@
       </mat-form-field>
   
 
-      <button mat-button class="btn-search" routerLink="/search" routerLinkActive="active"
+      <button mat-button class="btn-search"
       (click)="sendData()">Szukaj</button>
     </form>
 

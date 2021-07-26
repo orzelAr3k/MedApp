@@ -1,3 +1,37 @@
+$gradient-first: #65dbcf;
+$gradient-second: #6cdbed;
+
+.navbar {
+  background-image: linear-gradient(
+    to right,
+    $gradient-first,
+    $gradient-second
+  );
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  color: white;
+
+  .logout {
+    color: white;
+
+    button {
+      font-size: 16px;
+      color: white;
+      background: none;
+      text-decoration: none;
+      border: none;
+
+      &:hover {
+        color: #eeeeee;
+      }
+    }
+  }
+}
+
+
+
 mat-drawer {
   width: 20vw;
   font-size: 2rem;

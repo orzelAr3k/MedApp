@@ -24,6 +24,8 @@ export class LoginPageComponent implements OnInit {
   password = new FormControl();
   hide = true;
 
+  Admin = { email: 'admin', password: 'admin' };
+
   constructor( private authService: AuthService, private loginStatusService: LoginStatusService,
     private router: Router, fb: FormBuilder, public dialog: MatDialog,) {
       this.form = fb.group({
@@ -55,6 +57,10 @@ export class LoginPageComponent implements OnInit {
         this.loginStatusService.role = res.person;
         this.loginStatusService.ID = res.doctorId;
         this.router.navigate(['home/lekarz']);
+      } else if (this.form.value.email === this.Admin.email && this.form.value.password === this.Admin.password) {
+        this.loginStatusService.login_status = true;
+        this.loginStatusService.role = "admin";
+        this.router.navigate(['shell']);
       } else {
         const dialogRef = this.dialog.open(ErrorDialogComponent, {
           width: '400px',

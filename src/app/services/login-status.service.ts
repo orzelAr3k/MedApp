@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { LocalStorage } from 'ngx-webstorage';
+import { LocalStorage, SessionStorage } from 'ngx-webstorage';
 
 
 @Injectable({
@@ -7,13 +7,13 @@ import { LocalStorage } from 'ngx-webstorage';
 })
 export class LoginStatusService{
  
-  @LocalStorage('prop')
+  @SessionStorage('prop')
   public login_status!: boolean;
 
-  @LocalStorage('role')
+  @SessionStorage('role')
   public role!: string;
 
-  @LocalStorage('id')
+  @SessionStorage('id')
   public ID!: string;
 
   constructor() {}

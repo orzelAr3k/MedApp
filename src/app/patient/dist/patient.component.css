@@ -1,0 +1,77 @@
+.container {
+  display: flex;
+  height: 91%;
+}
+
+.input-form {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 50px;
+}
+.input-form h1 {
+  background: linear-gradient(to right, #65dbcf, #6cdbed);
+  background-clip: text;
+  color: transparent;
+  font-size: 2rem;
+  font-weight: bold;
+  padding-bottom: 5px;
+}
+.input-form .form-field mat-form-field {
+  margin-right: 20px;
+  width: 300px;
+}
+.input-form .form-field .selection {
+  opacity: 0.75;
+  font-size: 0.75em;
+}
+.input-form .datapicker mat-form-field {
+  width: 620px;
+  margin-top: 20px;
+}
+.input-form .btn-search {
+  background: #eeeeee;
+  width: 90px;
+  height: 45px;
+}
+.input-form .btn-search:hover {
+  background: linear-gradient(to right, #65dbcf, #6cdbed);
+}
+.input-form .text-field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 100px;
+  padding: 10px;
+}
+.input-form .text-field .text-field-a {
+  width: 45%;
+}
+.input-form .text-field .text-field-a mat-icon {
+  margin-right: 10px;
+  background: linear-gradient(to right, #65dbcf, #6cdbed);
+  background-clip: text;
+  color: transparent;
+}
+.input-form .text-field .text-field-a p {
+  opacity: 0.6;
+  word-wrap: break-word;
+}
+.input-form .text-field .text-field-b {
+  width: 45%;
+}
+.input-form .text-field .text-field-b mat-icon {
+  margin-right: 10px;
+  background: linear-gradient(to right, #65dbcf, #6cdbed);
+  background-clip: text;
+  color: transparent;
+}
+.input-form .text-field .text-field-b p {
+  opacity: 0.6;
+  word-wrap: break-word;
+}
+
+.img-specialist {
+  width: 50%;
+}

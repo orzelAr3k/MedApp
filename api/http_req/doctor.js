@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
-const { Specialists, User, Timetable } = require("../db/collections");
+const { Specialists, Users, Timetable } = require("../db/collections");
+const { ObjectId } = require("mongodb");
 
 router.get('', (req, res) => {
   const id = req.query.id;

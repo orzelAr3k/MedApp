@@ -59,6 +59,7 @@
               <mat-selection-list #hours [multiple]="false">
                   <mat-list-option *ngFor="let appointment of DATA[date]" [value]="appointment">
                       <mat-grid-list cols="5" rowHeight="5:1">
+                          <mat-divider></mat-divider>
                           <mat-grid-tile><b>{{appointment.hour}}</b></mat-grid-tile>
                           <mat-grid-tile><span>Lekarz: <b>{{appointment.doctor_name}} {{appointment.doctor_surname}}</b></span></mat-grid-tile>
                           <mat-grid-tile><span>Miasto: <b>{{appointment.city}}</b></span></mat-grid-tile>

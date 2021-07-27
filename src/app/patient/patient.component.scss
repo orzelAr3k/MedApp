@@ -3,6 +3,7 @@ $gradient-second: #6cdbed;
 
 .container {
   display: flex;
+  height: 91%;
 }
 
 .input-form {
@@ -31,6 +32,8 @@ $gradient-second: #6cdbed;
       opacity: 0.75;
       font-size: 0.75em;
     }
+
+  
   }
 
   .datapicker {

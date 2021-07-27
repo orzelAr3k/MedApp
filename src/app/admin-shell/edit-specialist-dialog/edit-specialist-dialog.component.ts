@@ -11,6 +11,18 @@ import { SpecialistElement } from '../../model/specialist.model'
 })
 export class EditSpecialistDialogComponent implements OnInit {
 
+  specializationList: string[] = [
+    'Alergologia',
+    'Dermatologia',
+    'Endokrynologia',
+    'Kardiochirurgia',
+    'Okulistyka',
+    'Onkologia',
+    'Ortopedia',
+    'Pediatria',
+    'Psychiatria',
+  ];
+
   constructor(
     public dialogRef: MatDialogRef<EditSpecialistDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SpecialistElement,

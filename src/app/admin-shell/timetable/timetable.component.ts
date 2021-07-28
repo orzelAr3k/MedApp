@@ -49,8 +49,6 @@ export class TimetableComponent implements OnInit {
         }
         this.DATA[date].push({date: day.date, hour: day.hour, patient: day.patient, description: day.description })
       });
-
-      console.log(this.DATA);
     });
   }
 
@@ -63,7 +61,6 @@ export class TimetableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.timelineService
           .addAppointment(this.doctorId, result)
           .subscribe((data) => {

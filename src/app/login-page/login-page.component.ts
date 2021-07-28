@@ -49,7 +49,6 @@ export class LoginPageComponent implements OnInit {
       if (res.info === true && res.person === "patient") {
         this.loginStatusService.login_status = res.info;
         this.loginStatusService.role = res.person;
-        console.log(res.patientId);
         this.loginStatusService.ID = res.patientId;
         this.router.navigate(['']);
       } else if (res.info === true && res.person === "doctor"){

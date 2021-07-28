@@ -38,7 +38,7 @@ $gradient-second: #6cdbed;
 
   .datapicker {
     mat-form-field {
-      width: 620px;
+      width: 97%;
       margin-top: 20px;
     }
   }
@@ -46,7 +46,7 @@ $gradient-second: #6cdbed;
   .btn-search {
     background: #eeeeee;
     width: 90px;
-    height: 45px;
+    height: 55px;
 
     &:hover {
       background: linear-gradient(to right, $gradient-first, $gradient-second);
@@ -57,7 +57,7 @@ $gradient-second: #6cdbed;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 100px;
+    margin-top: 80px;
     padding: 10px;
     .text-field-a {
       width: 45%;
@@ -96,6 +96,10 @@ $gradient-second: #6cdbed;
       }
     }
   }
+}
+
+.addSpecialization {
+  width: 100%;
 }
 
 .img-specialist {

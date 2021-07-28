@@ -73,7 +73,6 @@ export class AdminShellComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.specialistService.addNewSpecialists(result).subscribe(() => {
           this.ngOnInit();
         });

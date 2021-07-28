@@ -73,8 +73,8 @@ export class PatientComponent implements OnInit {
 
   addSpecialization() {
     if (this.form.value.spec !== "") {
-      console.log(this.form.value);
       this.specializationList.push(this.form.value.spec);
+      this.form.value.spec = "";
     }
   }
 

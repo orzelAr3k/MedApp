@@ -52,6 +52,7 @@ export class AddSpecialistDialogComponent implements OnInit {
       city: this.city.value,
       email: this.email.value,
       password: this.password.value,
+      spec: "",
     });
   }
 
@@ -71,5 +72,12 @@ export class AddSpecialistDialogComponent implements OnInit {
 
   submit() {
     this.dialogRef.close(this.form.value);
+  }
+
+  addSpecialization() {
+    if (this.form.value.spec !== "") {
+      this.specializationList.push(this.form.value.spec);
+      this.form.value.spec = "";
+    }
   }
 }

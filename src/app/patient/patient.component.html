@@ -15,8 +15,8 @@
         <mat-form-field appearance="fill" color="accent">
           <mat-label>Specjalizacja</mat-label>
           <mat-select formControlName="specialization">
-            <mat-form-field appearance="fill" color="accent">
-              <input matInput formControlName="spec">
+            <mat-form-field appearance="fill" color="accent" class="addSpecialization">
+              <input matInput formControlName="spec" [value]="form.value.spec">
               <button matSuffix mat-icon-button (click)="addSpecialization()">
                 <mat-icon>add</mat-icon>
               </button>

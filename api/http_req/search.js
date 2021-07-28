@@ -15,13 +15,12 @@ router.get("", async (req, res) => {
     let query_doctor = {};
 
     if( typeof(city) == typeof("")){ 
-      city != '' ? (query_doctor.city = city) : "";
+      city != 'null' ? (query_doctor.city = city) : "";
     } else {
-      city != '' ? (query_doctor.city = { $in: city }) : "";
+      city != 'null' ? (query_doctor.city = { $in: city }) : "";
     }
     
-    
-    specialization != ""
+    specialization != "null"
       ? (query_doctor.specialization = specialization)
       : "";
 
@@ -53,22 +52,22 @@ router.get("", async (req, res) => {
     patient: "",
   };
 
-  if (dateStart != "" && dateEnd != "") {
+  if (dateStart != "null" && dateEnd != "null") {
     find.date = {
       $gte: new Date(dateStart),
       $lte: new Date(dateEnd).addHours(24),
     };
-  } else if (dateStart != "" && dateEnd == "") {
+  } else if (dateStart != "null" && dateEnd == "null") {
     find.date = { $gte: new Date(dateStart) };
-  } else if (dateStart == "" && dateEnd != "") {
+  } else if (dateStart == "null" && dateEnd != "null") {
     find.date = { $lte: new Date(dateEnd).addHours(24) };
   }
 
-  if (timeStart != "" && timeEnd != "") {
+  if (timeStart != "null" && timeEnd != "null") {
     find.hour = { $gte: timeStart, $lte: timeEnd };
-  } else if (timeStart != "" && timeEnd == "") {
+  } else if (timeStart != "null" && timeEnd == "null") {
     find.hour = { $gte: timeStart };
-  } else if (timeStart == "" && timeEnd != "") {
+  } else if (timeStart == "null" && timeEnd != "null") {
     find.hour = { $lte: timeEnd };
   }
 

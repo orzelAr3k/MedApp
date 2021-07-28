@@ -32,13 +32,13 @@ export class SearchPageComponent implements OnInit {
     end: new FormControl(),
   });
 
-  // specialization = new FormControl();
-  // city = new FormControl();
-  // time = new FormControl();
-  // timeStart = new FormControl();
-  // timeEnd = new FormControl();
-  // dateStart = new FormControl();
-  // dateEnd = new FormControl();
+  specialization = new FormControl();
+  city = new FormControl();
+  time = new FormControl();
+  timeStart = new FormControl();
+  timeEnd = new FormControl();
+  dateStart = new FormControl();
+  dateEnd = new FormControl();
 
   cityList: string[] = [
     'Kraków',
@@ -70,12 +70,12 @@ export class SearchPageComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.form = fb.group({
-      city: '',//this.city.value,
-      specialization: '', // this.specialization.value,
-      timeStart: '', // this.timeStart.value,
-      timeEnd: '', //this.timeEnd.value,
-      dateStart: '', //this.dateStart.value,
-      dateEnd: '', //this.dateEnd.value,
+      city: this.city.value,
+      specialization: this.specialization.value,
+      timeStart: this.timeStart.value,
+      timeEnd: this.timeEnd.value,
+      dateStart: this.dateStart.value,
+      dateEnd: this.dateEnd.value,
     });
   }
 

@@ -14,9 +14,9 @@ router.get("", async (req, res) => {
   doctor = async (city, specialization) => {
     let query_doctor = {};
 
-    if( typeof(city) == typeof("")){ 
+    if( typeof(city) === typeof("")){ 
       city != 'null' ? (query_doctor.city = city) : "";
-    } else {
+    } else if (typeof(city) === typeof([])) {
       city != 'null' ? (query_doctor.city = { $in: city }) : "";
     }
     

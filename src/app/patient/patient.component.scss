@@ -3,10 +3,11 @@ $gradient-second: #6cdbed;
 
 .container {
   display: flex;
+  height: 91%;
 }
 
 .input-form {
-  width: 50vw;
+  width: 50%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -31,11 +32,13 @@ $gradient-second: #6cdbed;
       opacity: 0.75;
       font-size: 0.75em;
     }
+
+  
   }
 
   .datapicker {
     mat-form-field {
-      width: 620px;
+      width: 97%;
       margin-top: 20px;
     }
   }
@@ -43,14 +46,62 @@ $gradient-second: #6cdbed;
   .btn-search {
     background: #eeeeee;
     width: 90px;
-    height: 45px;
+    height: 55px;
 
     &:hover {
       background: linear-gradient(to right, $gradient-first, $gradient-second);
     }
   }
+
+  .text-field {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-top: 80px;
+    padding: 10px;
+    .text-field-a {
+      width: 45%;
+
+      mat-icon {
+        margin-right: 10px;
+        background: linear-gradient(
+          to right,
+          $gradient-first,
+          $gradient-second
+        );
+        background-clip: text;
+        color: transparent;
+      }
+      p {
+        opacity: 0.6;
+        word-wrap: break-word;
+      }
+    }
+
+    .text-field-b {
+      width: 45%;
+      mat-icon {
+        margin-right: 10px;
+        background: linear-gradient(
+          to right,
+          $gradient-first,
+          $gradient-second
+        );
+        background-clip: text;
+        color: transparent;
+      }
+      p {
+        opacity: 0.6;
+        word-wrap: break-word;
+      }
+    }
+  }
+}
+
+.addSpecialization {
+  width: 100%;
 }
 
 .img-specialist {
-  width: 50vw;
+  width: 50%;
 }

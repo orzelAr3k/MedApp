@@ -20,7 +20,8 @@ export class TimetableComponent implements OnInit {
 
   selected = new FormControl(0);
 
-  DATA: Appointment[] = [];
+  DATA: Record<string, Appointment[]> = {};
+  dateList: string[] = [];
 
   constructor(
     public route: ActivatedRoute,
@@ -35,15 +36,18 @@ export class TimetableComponent implements OnInit {
 
     this.timelineService.getTimeline(this.doctorId).subscribe((data) => {
       this.doctorName = data.doctorName.join(' ');
-      this.DATA.length = 0;
+      this.dateList.length = 0;
+      this.DATA = {};
+
       data.day.forEach((day: any) => {
-        this.DATA.push({
-          date: new Date(day.date),
-          hours: [],
-        });
-        day.hours.forEach((e: any) => {
-          this.DATA[this.DATA.length - 1].hours.push(e);
-        });
+        let date = new Date(day.date).toLocaleDateString();
+        if (!this.dateList.includes(date)) {
+          this.dateList.push(date);
+        }
+        if (!this.DATA[date]) {
+          this.DATA[date] = [];
+        }
+        this.DATA[date].push({date: day.date, hour: day.hour, patient: day.patient, description: day.description })
       });
     });
   }
@@ -57,7 +61,6 @@ export class TimetableComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.timelineService
           .addAppointment(this.doctorId, result)
           .subscribe((data) => {
@@ -67,9 +70,8 @@ export class TimetableComponent implements OnInit {
     });
   }
 
-  deleteSchedule(date: Date, appointment: any) {
-    const result: any = {date: date, appointment: appointment };
-    this.timelineService.deleteAppointment(this.doctorId, result).subscribe((data) => {
+  deleteSchedule(appointment: Appointment) {
+    this.timelineService.deleteAppointment(this.doctorId, appointment).subscribe((data) => {
       this.ngOnInit();
     });
   }
@@ -77,5 +79,7 @@ export class TimetableComponent implements OnInit {
 
 export interface Appointment {
   date: Date;
-  hours: Array<{ hour: string; patient: string; description: string }>;
+  hour: string, 
+  patient: string, 
+  description: string, 
 }

@@ -1,18 +1,29 @@
-<h1 mat-dialog-title>Wprowadź dane:</h1>
+<mat-toolbar class="navbar">
+  <a>Wprowadź dane:</a>
+</mat-toolbar>
+
 <mat-dialog-content>
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" color="accent">
     <mat-label>Imię</mat-label>
     <input matInput [(ngModel)]="data.name">
   </mat-form-field>
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" color="accent">
     <mat-label>Nazwisko</mat-label>
     <input matInput [(ngModel)]="data.surname">
   </mat-form-field>
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" color="accent">
     <mat-label>Specjalizacja</mat-label>
-    <input matInput [(ngModel)]="data.specialization">
+    <mat-select [(ngModel)]="data.specialization" required multiple>
+      <mat-form-field appearance="fill" color="accent" class="addSpecialization">
+        <input matInput [(ngModel)]="spec" [value]="spec">
+        <button matSuffix mat-icon-button (click)="addSpecialization()">
+          <mat-icon>add</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-option *ngFor="let specialization of specializationList" [value]="specialization">{{specialization}}</mat-option>
+    </mat-select>
   </mat-form-field>
-  <mat-form-field appearance="fill">
+  <mat-form-field appearance="fill" color="accent">
     <mat-label>Opis</mat-label>
     <input matInput [(ngModel)]="data.description">
   </mat-form-field>

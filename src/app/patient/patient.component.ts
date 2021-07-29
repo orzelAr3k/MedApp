@@ -21,6 +21,7 @@ export class PatientComponent implements OnInit {
   });
 
   specialization = new FormControl();
+  spec = new FormControl();
   city = new FormControl();
   time = new FormControl();
   timeStart = new FormControl();
@@ -38,14 +39,14 @@ export class PatientComponent implements OnInit {
   ];
 
   specializationList: string[] = [
-    'Laryngolog',
-    'Kardiolog',
-    'Foniatra',
-    'Anestezjolog',
-    'Ortopeda',
-    'Dermatolog',
-    'Endokrynolog',
-    'Neurolog',
+    'Laryngologia',
+    'Kardiologia',
+    'Foniatria',
+    'Anestezjologia',
+    'Ortopedia',
+    'Dermatologia',
+    'Endokrynologia',
+    'Neurologia',
   ];
 
   timeList: string[] = [];
@@ -54,6 +55,7 @@ export class PatientComponent implements OnInit {
     this.form = fb.group({
       city: this.city.value,
       specialization: this.specialization.value,
+      spec: this.spec.value,
       timeStart: this.timeStart.value,
       timeEnd: this.timeEnd.value,
       dateStart: this.dateStart.value,
@@ -69,10 +71,22 @@ export class PatientComponent implements OnInit {
     this.searchService.data = this.form.value;
   }
 
+  addSpecialization() {
+    if (this.form.value.spec !== "") {
+      this.specializationList.push(this.form.value.spec);
+      this.form.value.spec = "";
+    }
+  }
+
   calculateTime() {
     for (let i: number = 0; i < 24; i++) {
-      this.timeList.push(`${i}:00`);
-      this.timeList.push(`${i}:30`);
+      if (i < 10) {
+        this.timeList.push(`0${i}:00`);
+        this.timeList.push(`0${i}:30`);
+      } else {
+        this.timeList.push(`${i}:00`);
+        this.timeList.push(`${i}:30`);
+      }
     }
   }
 }

@@ -9,6 +9,9 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { LoginStatusService } from '../services/login-status.service';
 
+import {ErrorDialogComponent} from '../error-dialog/error-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+
 @Component({
   selector: 'app-login-page',
   templateUrl: './login-page.component.html',
@@ -21,8 +24,10 @@ export class LoginPageComponent implements OnInit {
   password = new FormControl();
   hide = true;
 
+  Admin = { email: 'admin', password: 'admin' };
+
   constructor( private authService: AuthService, private loginStatusService: LoginStatusService,
-    private router: Router, fb: FormBuilder) {
+    private router: Router, fb: FormBuilder, public dialog: MatDialog,) {
       this.form = fb.group({
         email: this.email.value,
         password: this.password.value,
@@ -41,17 +46,26 @@ export class LoginPageComponent implements OnInit {
 
   login() {
     this.authService.login(this.form.value).subscribe((res) => {
-      console.log(res);
       if (res.info === true && res.person === "patient") {
         this.loginStatusService.login_status = res.info;
         this.loginStatusService.role = res.person;
+        this.loginStatusService.ID = res.patientId;
         this.router.navigate(['']);
       } else if (res.info === true && res.person === "doctor"){
         this.loginStatusService.login_status = res.info;
         this.loginStatusService.role = res.person;
+        this.loginStatusService.ID = res.doctorId;
         this.router.navigate(['home/lekarz']);
+      } else if (this.form.value.email === this.Admin.email && this.form.value.password === this.Admin.password) {
+        this.loginStatusService.login_status = true;
+        this.loginStatusService.role = "admin";
+        this.router.navigate(['shell']);
       } else {
-        console.log("error")
+        const dialogRef = this.dialog.open(ErrorDialogComponent, {
+          width: '400px',
+          data: { text: "Błędny adres e-mail lub hasło!"}
+        });
+        dialogRef.afterClosed().subscribe();
       }
     })
   }

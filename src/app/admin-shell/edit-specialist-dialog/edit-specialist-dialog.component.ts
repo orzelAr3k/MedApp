@@ -11,6 +11,20 @@ import { SpecialistElement } from '../../model/specialist.model'
 })
 export class EditSpecialistDialogComponent implements OnInit {
 
+  specializationList: string[] = [
+    'Alergologia',
+    'Dermatologia',
+    'Endokrynologia',
+    'Kardiochirurgia',
+    'Okulistyka',
+    'Onkologia',
+    'Ortopedia',
+    'Pediatria',
+    'Psychiatria',
+  ];
+
+  spec!: string;
+
   constructor(
     public dialogRef: MatDialogRef<EditSpecialistDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SpecialistElement,
@@ -21,5 +35,12 @@ export class EditSpecialistDialogComponent implements OnInit {
 
   onNoClick() {
     this.dialogRef.close();
+  }
+
+  addSpecialization() {
+    if (this.spec !== "") {
+      this.specializationList.push(this.spec);
+      this.spec = "";
+    }
   }
 }

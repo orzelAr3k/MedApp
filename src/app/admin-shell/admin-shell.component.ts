@@ -4,7 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { AddSpecialistDialogComponent } from './add-specialist-dialog/add-specialist-dialog.component';
 import { EditSpecialistDialogComponent } from './edit-specialist-dialog/edit-specialist-dialog.component';
-import { ObjectID } from 'bson';
+import { LoginStatusService } from './../services/login-status.service';
 
 //import modelu danych
 import { SpecialistElement } from '../model/specialist.model';
@@ -38,7 +38,8 @@ import {
 export class AdminShellComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
-    private specialistService: SpecialistsService
+    private specialistService: SpecialistsService,
+    private loginStatusService: LoginStatusService
   ) {}
 
   dataSource!: MatTableDataSource<SpecialistElement>;
@@ -72,7 +73,6 @@ export class AdminShellComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        console.log(result);
         this.specialistService.addNewSpecialists(result).subscribe(() => {
           this.ngOnInit();
         });
@@ -106,5 +106,11 @@ export class AdminShellComponent implements OnInit {
         })
       }
     });
+  }
+
+
+  logout() {
+    this.loginStatusService.change_status();
+    this.ngOnInit();
   }
 }

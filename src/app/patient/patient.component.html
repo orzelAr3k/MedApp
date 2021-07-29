@@ -3,123 +3,83 @@
     <h1>Znajdź lekarza i umów wizytę</h1>
     <h2>Szukaj wsród 146 000 lekarzy.</h2>
 
-      <!-- <div class="form-field">
-        <mat-form-field appearance="fill">
+    <form [formGroup]="form">
+      <div class="form-field">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Miasto</mat-label>
-          <mat-select [formControl]="city" multiple>
+          <mat-select formControlName="city" multiple>
             <mat-option *ngFor="let city of cityList" [value]="city">{{city}}</mat-option>
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Specjalizacja</mat-label>
-          <mat-select [formControl]="specialization">
-            <mat-option *ngFor="let spec of specializationList" [value]="specialization">{{ spec }}</mat-option>
+          <mat-select formControlName="specialization">
+            <mat-form-field appearance="fill" color="accent" class="addSpecialization">
+              <input matInput formControlName="spec" [value]="form.value.spec">
+              <button matSuffix mat-icon-button (click)="addSpecialization()">
+                <mat-icon>add</mat-icon>
+              </button>
+            </mat-form-field>
+            <mat-option *ngFor="let specialization of specializationList" [value]="specialization">{{specialization}}
+            </mat-option>
           </mat-select>
         </mat-form-field>
       </div>
 
       <div class="datapicker">
-        <mat-form-field appearance="fill">
+        <mat-form-field appearance="fill" color="accent">
           <mat-label>Wprowadź datę</mat-label>
-          <mat-date-range-input [rangePicker]="picker">
-            <input matStartDate placeholder="Start date" [formControl]="time_start">
-            <input matEndDate placeholder="End date" [formControl]="time_start"> 
+          <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
+            <input matStartDate formControlName="dateStart" placeholder="Od dnia">
+            <input matEndDate formControlName="dateEnd" placeholder="Do dnia">
           </mat-date-range-input>
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-date-range-picker #picker></mat-date-range-picker>
+
+          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
         </mat-form-field>
       </div>
 
       <div class="form-field">
+        <mat-form-field appearance="fill" color="accent">
+          <mat-label>Godzina od:</mat-label>
+          <mat-select formControlName="timeStart">
+            <mat-option *ngFor="let timeStart of timeList" [value]="timeStart">{{timeStart}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
         <mat-form-field appearance="fill">
           <mat-label>Godzina od:</mat-label>
-          <mat-select [formControl]="time_start">
-            <mat-option *ngFor="let time of timeList" [value]="time_start">{{
-              time
-            }}</mat-option>
+          <mat-select formControlName="timeEnd">
+            <mat-option *ngFor="let timeEnd of timeList" [value]="timeEnd">{{timeEnd}}</mat-option>
           </mat-select>
         </mat-form-field>
+      </div>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Godzina do:</mat-label>
-          <mat-select [formControl]="time_end">
-            <mat-option *ngFor="let time of timeList" [value]="time_end">{{
-              time
-            }}</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div> -->
+    </form>
 
+    <button mat-button class="btn-search" routerLink="../search" routerLinkActive="active"
+      (click)="sendData()">Szukaj</button>
 
-      <form [formGroup]="form">
-        <div class="form-field">
-          <mat-form-field appearance="fill">
-            <mat-label>Miasto</mat-label>
-            <mat-select formControlName="city" multiple>
-              <mat-option *ngFor="let city of cityList" [value]="city">{{city}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-    
-          <mat-form-field appearance="fill">
-            <mat-label>Specjalizacja</mat-label>
-            <mat-select formControlName="specialization">
-              <mat-option *ngFor="let specialization of specializationList" [value]="specialization">{{specialization}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
+    <div class="text-field">
+      <div class="text-field-a">
+        <h2>
+          <mat-icon>assignment_turned_in</mat-icon>Łatwo umów wizytę
+        </h2>
+        <p>Wybierz odpowiadający Ci termin, podaj swoje dane, potwierdź... i już. Wizyta umówiona!</p>
+      </div>
 
-        <div class="datapicker">
-          <mat-form-field appearance="fill">
-            <mat-label>Wprowadź datę</mat-label>
-            <mat-date-range-input [formGroup]="form" [rangePicker]="picker">
-              <input matStartDate formControlName="dateStart" placeholder="Od dnia">
-              <input matEndDate formControlName="dateEnd" placeholder="Do dnia">
-            </mat-date-range-input>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-          
-            <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
-            <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="form-field">
-          <mat-form-field appearance="fill">
-            <mat-label>Godzina od:</mat-label>
-            <mat-select formControlName="timeStart">
-              <mat-option *ngFor="let timeStart of timeList" [value]="timeStart">{{timeStart}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-
-          <mat-form-field appearance="fill">
-            <mat-label>Godzina od:</mat-label>
-            <mat-select formControlName="timeEnd">
-              <mat-option *ngFor="let timeEnd of timeList" [value]="timeEnd">{{timeEnd}}</mat-option>
-            </mat-select>
-          </mat-form-field>
-        </div>
-
-      </form>
-
-    <button mat-button class="btn-search" routerLink="/search" routerLinkActive="active" (click)="sendData()">Szukaj</button>
-
-
-    <div class="text-field-a">
-      <h3><mat-icon></mat-icon>Łatwo umów wizytę</h3>
-      <p>Wybierz odpowiadający Ci termin, podaj swoje dane, potwierdź... i już. Wizyta umówiona!</p>
-    </div>
-
-    <div class="text-field-b">
-      <h3><mat-icon></mat-icon>Usługa jest bezpłatna</h3>
-      <p>Korzystanie z serwisu jest dla pacjentów bezpłatne.</p>
+      <div class="text-field-b">
+        <h2>
+          <mat-icon>thumb_up</mat-icon>Usługa jest bezpłatna
+        </h2>
+        <p>Korzystanie z serwisu jest dla pacjentów bezpłatne.</p>
+      </div>
     </div>
 
   </div>
 
-  <img
-    src="../../assets/lekarz.jpg"
-    class="img-specialist"
-    alt="Zdjecie strony wyszukiwania specjalisty"
-  />
+  <img src="../../assets/lekarz.jpg" class="img-specialist" alt="Zdjecie strony wyszukiwania specjalisty" />
 </div>

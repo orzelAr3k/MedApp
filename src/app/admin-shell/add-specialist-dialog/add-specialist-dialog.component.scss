@@ -1,3 +1,22 @@
+$gradient-first: #65dbcf;
+$gradient-second: #6cdbed;
+
+
+.navbar {
+    background-image: linear-gradient(
+      to right,
+      $gradient-first,
+      $gradient-second
+    );
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    color: white;
+    border-radius: 5px;
+}
+
 .container {
     padding: 10px 20px 10px 20px;
 
@@ -12,3 +31,7 @@
         }
     }
 }
+
+.addSpecialization {
+    width: 100%;
+  }

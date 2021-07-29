@@ -3,10 +3,10 @@
 <mat-dialog-content>
 
     <mat-form-field appearance="fill">
-        <mat-label>Enter a date range</mat-label>
+        <mat-label>Wprowadź datę</mat-label>
         <mat-date-range-input [rangePicker]="picker">
-          <input matStartDate placeholder="Start date" [(ngModel)]="data.date_start">
-          <input matEndDate placeholder="End date" [(ngModel)]="data.date_end">
+          <input matStartDate placeholder="Data od" [(ngModel)]="data.date_start">
+          <input matEndDate placeholder="Data do" [(ngModel)]="data.date_end">
         </mat-date-range-input> 
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-date-range-picker #picker></mat-date-range-picker>
@@ -17,7 +17,7 @@
 
 
             <mat-form-field appearance="fill">
-                <mat-label>Od</mat-label>
+                <mat-label>Godzina od</mat-label>
                 <mat-select [(value)]="data.hour_start">
                   <mat-option *ngFor="let time of timeList" value={{time}}>{{time}}</mat-option>
                 </mat-select>
@@ -25,7 +25,7 @@
 
      
             <mat-form-field appearance="fill">
-                <mat-label>Do</mat-label>
+                <mat-label>Godzina do</mat-label>
                 <mat-select [(value)]="data.hour_end">
                   <mat-option *ngFor="let time of timeList" value={{time}}>{{time}}</mat-option>
                 </mat-select>

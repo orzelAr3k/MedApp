@@ -16,6 +16,9 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { TimetableComponent } from './admin-shell/timetable/timetable.component';
 import { TimetableDialogComponent } from './admin-shell/timetable/timetable-dialog/timetable-dialog.component';
 import { SearchPageComponent } from './search-page/search-page.component';
+import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+import { AppointmentDialogComponent } from './search-page/appointment-dialog/appointment-dialog.component';
+import { MyAppointmentComponent } from './my-appointment/my-appointment.component';
 
 //import angular material
 import { MatTabsModule } from '@angular/material/tabs';
@@ -40,7 +43,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { WebRequestService } from './web-request.service';
 
 import { NgxWebstorageModule } from 'ngx-webstorage';
-import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
+
 
 
 @NgModule({
@@ -58,6 +61,8 @@ import { ErrorDialogComponent } from './error-dialog/error-dialog.component';
     TimetableDialogComponent,
     SearchPageComponent,
     ErrorDialogComponent,
+    AppointmentDialogComponent,
+    MyAppointmentComponent,
   ],
   imports: [
     BrowserModule,

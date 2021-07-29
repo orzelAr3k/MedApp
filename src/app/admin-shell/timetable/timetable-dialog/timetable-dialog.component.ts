@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {FormGroup, FormControl} from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-timetable-dialog',
@@ -33,8 +33,13 @@ export class TimetableDialogComponent implements OnInit {
 
   calculateTime() {
     for (let i: number = 0; i < 24; i ++) {
-      this.timeList.push(`${i}:00`)
-      this.timeList.push(`${i}:30`)
+      if (i < 10) {
+        this.timeList.push(`0${i}:00`);
+        this.timeList.push(`0${i}:30`);
+      } else {
+        this.timeList.push(`${i}:00`);
+        this.timeList.push(`${i}:30`);
+      }
     }
   }
 

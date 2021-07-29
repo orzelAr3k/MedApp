@@ -15,12 +15,12 @@
     </div>
 
     <div class="logout-user" *ngIf="role==='patient'">
-      <button routerLink="" routerLinkActive="active">Moje wizyty</button>
+      <button routerLink="myappointment" routerLinkActive="active">Moje wizyty</button>
       <span> | </span>
       <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
     </div>
 
-    <div class="logout-doctor" *ngIf="role==='doctor'">
+    <div class="logout" *ngIf="role==='doctor'||role==='admin'">
       <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
     </div>
 

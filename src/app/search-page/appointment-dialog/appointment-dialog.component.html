@@ -1,0 +1,27 @@
+<div class="container">
+  <mat-dialog-content>
+    <div class="appointment">
+      <h1>Podaj powód wizyty</h1>
+      <form [formGroup]="form">
+        <mat-form-field appearance="fill" >
+          <mat-label>Powód wizyty</mat-label>
+          <textarea matInput rows="12" formControlName="description"></textarea>
+        </mat-form-field>
+      </form>
+    </div>
+
+    <!-- <mat-divider vertical style="height: 300px"></mat-divider> -->
+
+    <div class="doctor">
+      <h2>{{ data.appointment.doctor_name }} {{ data.appointment.doctor_surname }}</h2>
+      <h1>{{ data.appointment.hour }}</h1>
+      <p>Specjalizacja: <span>{{ data.appointment.specialization }}</span></p>
+      <p>Miasto: <span>{{ data.appointment.city }}</span></p>
+      <p>Opis: <span>{{ data.appointment.description }}</span></p>
+    </div>
+  </mat-dialog-content>
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()">Zamknij</button>
+    <button mat-button (click)="confirm()">Potwierdź</button>
+  </div>
+</div>

@@ -1,12 +1,9 @@
 <mat-toolbar class="navbar">
   <a>PANEL ADMINISTRATORA</a>
-
   <div class="logout">
     <button routerLink="" routerLinkActive="active" (click)="logout()">Wyloguj się</button>
   </div>
-
 </mat-toolbar>
-
 
 <div class="container">
 
@@ -44,7 +41,6 @@
               {{ element.description }}
             </div>
 
-
             <div class="btns-edit">
               <button mat-button class="btn" [routerLink]="['timetable', element._id]" routerLinkActive="active">Grafik</button>
               <button mat-button class="btn" (click)="editSpecialist(element)"><mat-icon>edit</mat-icon></button>
@@ -61,5 +57,5 @@
     </table>
     <mat-paginator [pageSizeOptions]="[10, 25, 100]"></mat-paginator>
   </div>
-
 </div>
+

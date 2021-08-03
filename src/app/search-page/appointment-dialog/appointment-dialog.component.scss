@@ -58,8 +58,11 @@ mat-dialog-content {
     }
 
     p {
+      width: 100%;
       font-size: 20px;
       opacity: 0.6;
+      word-wrap: break-word;
+      text-align: right;
 
       span {
         font-weight: bold;

@@ -138,10 +138,10 @@ export class SearchPageComponent implements OnInit {
   }
 
   makeAppointment(appointment: Appointment) {
-    if (this.ID == '') {
+    if (this.ID == '' || this.role !== "patient") {
       const dialogRef = this.dialog.open(ErrorDialogComponent, {
         width: '400px',
-        data: { text: "Zaloguj się!" }
+        data: { text: "Błąd! Upewnij się że jesteś odpowiednio zalogowany!" }
       });
       dialogRef.afterClosed().subscribe();
     } else {

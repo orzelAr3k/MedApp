@@ -6,10 +6,7 @@ import { AddSpecialistDialogComponent } from './add-specialist-dialog/add-specia
 import { EditSpecialistDialogComponent } from './edit-specialist-dialog/edit-specialist-dialog.component';
 import { LoginStatusService } from './../services/login-status.service';
 
-//import modelu danych
-import { SpecialistElement } from '../model/specialist.model';
-
-//servisy
+//serwisy
 import { SpecialistsService } from '../services/specialists.service';
 
 import {

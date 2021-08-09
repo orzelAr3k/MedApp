@@ -9,6 +9,8 @@ const search_req = require('./http_req/search');
 const doctor_req = require('./http_req/doctor');
 const patient_req = require('./http_req/patient');
 const auth_req = require('./http_req/auth');
+const specialization_req = require('./http_req/specialization');
+const cities_req = require('./http_req/cities');
 
 const PORT = 3000;
 
@@ -39,6 +41,8 @@ app.use('/search', search_req);
 app.use('/doctor', doctor_req);
 app.use('/patient', patient_req)
 app.use('/auth', auth_req);
+app.use('/specializations', specialization_req);
+app.use('/cities', cities_req);
 
 
 app.listen(PORT, () => {

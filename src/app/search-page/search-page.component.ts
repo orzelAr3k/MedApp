@@ -5,12 +5,13 @@ import {
   FormGroup,
   FormBuilder,
   FormControl,
-  Validators,
 } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { AppointmentDialogComponent } from './appointment-dialog/appointment-dialog.component';
 import { ErrorDialogComponent } from '../error-dialog/error-dialog.component';
+import { SpecializationService } from '../services/specialization.service';
+import { CitiesService } from '../services/cities.service';
 
 @Component({
   selector: 'app-search-page',
@@ -24,7 +25,10 @@ export class SearchPageComponent implements OnInit {
   selected = new FormControl(0);
   DATA: Record<string, Appointment[]> = {};
   dateList: string[] = [];
+  timeList: string[] = [];
 
+  cityList!: string[];
+  specializationList!: string[]
   form!: FormGroup;
 
   range = new FormGroup({
@@ -32,50 +36,23 @@ export class SearchPageComponent implements OnInit {
     end: new FormControl(),
   });
 
-  specialization = new FormControl();
-  city = new FormControl();
-  time = new FormControl();
-  timeStart = new FormControl();
-  timeEnd = new FormControl();
-  dateStart = new FormControl();
-  dateEnd = new FormControl();
-
-  cityList: string[] = [
-    'Kraków',
-    'Warszawa',
-    'Poznań',
-    'Gdańsk',
-    'Wrocław',
-    'Zakopane',
-  ];
-
-  specializationList: string[] = [
-    'Laryngolog',
-    'Kardiolog',
-    'Foniatra',
-    'Anestezjolog',
-    'Ortopeda',
-    'Dermatolog',
-    'Endokrynolog',
-    'Neurolog',
-  ];
-
-  timeList: string[] = [];
 
   constructor(
     private loginStatusService: LoginStatusService,
     private searchService: SearchService,
+    private specializationService: SpecializationService,
+    private citiesService: CitiesService,
     fb: FormBuilder,
     private router: Router,
     public dialog: MatDialog
   ) {
     this.form = fb.group({
-      city: this.city.value,
-      specialization: this.specialization.value,
-      timeStart: this.timeStart.value,
-      timeEnd: this.timeEnd.value,
-      dateStart: this.dateStart.value,
-      dateEnd: this.dateEnd.value,
+      city: '',
+      specialization: '',
+      timeStart: '',
+      timeEnd: '',
+      dateStart: '',
+      dateEnd: '',
     });
   }
 
@@ -84,6 +61,12 @@ export class SearchPageComponent implements OnInit {
     this.role = this.loginStatusService.role;
     this.ID = this.loginStatusService.ID;
     this.calculateTime();
+    this.specializationService.getSpecializations().subscribe(specializationList => {
+      this.specializationList = specializationList;
+    })
+    this.citiesService.getCities().subscribe(citiesList => {
+      this.cityList = citiesList;
+    })
 
     if (this.searchService.data == undefined) {
       this.searchService.data = this.form.value;
@@ -156,7 +139,6 @@ export class SearchPageComponent implements OnInit {
     }
   }
 }
-
 export interface Appointment {
   appointmentId: string;
   date: Date;

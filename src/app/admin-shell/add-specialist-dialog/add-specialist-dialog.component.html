@@ -18,7 +18,7 @@
       <mat-form-field appearance="fill" color="accent">
         <mat-label>Specjalizacja</mat-label>
         <mat-select formControlName="specialization" required multiple>
-          <mat-form-field appearance="fill" color="accent" class="addSpecialization">
+          <mat-form-field appearance="fill" color="accent" class="addSpec">
             <input matInput formControlName="spec" [value]="form.value.spec">
             <button matSuffix mat-icon-button (click)="addSpecialization()">
               <mat-icon>add</mat-icon>
@@ -35,7 +35,15 @@
 
       <mat-form-field appearance="fill" color="accent">
         <mat-label>Miasto</mat-label>
-        <input matInput formControlName="city" required />
+        <mat-select formControlName="city" required multiple>
+          <mat-form-field appearance="fill" color="accent" class="addSpec">
+            <input matInput formControlName="spec" [value]="form.value.spec">
+            <button matSuffix mat-icon-button (click)="addCity()">
+              <mat-icon>add</mat-icon>
+            </button>
+          </mat-form-field>
+          <mat-option *ngFor="let city of citiesList" [value]="city">{{city}}</mat-option>
+        </mat-select>
       </mat-form-field>
 
       <div class="valid-form">

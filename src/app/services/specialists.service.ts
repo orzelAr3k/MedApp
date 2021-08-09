@@ -2,8 +2,6 @@ import { Injectable } from '@angular/core';
 import { WebRequestService } from '../web-request.service';
 import { ObjectID } from 'bson';
 
-//import modelu danych
-import { SpecialistElement } from '../model/specialist.model';
 
 @Injectable({
   providedIn: 'root',

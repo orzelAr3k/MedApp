@@ -41,7 +41,8 @@ export class MyAppointmentComponent implements OnInit {
           appointmentId: day._id,
           date: day.date,
           hour: day.hour,
-          doctor_name: data.doctorName[day.doctorId].name,
+          name: data.doctorName[day.doctorId].name,
+          description: day.description,
           city: data.doctorName[day.doctorId].city
         });
       });
@@ -57,10 +58,3 @@ export class MyAppointmentComponent implements OnInit {
 
 }
 
-export interface Appointment {
-  appointmentId: string;
-  date: Date;
-  hour: string;
-  doctor_name: string;
-  city: string;
-}

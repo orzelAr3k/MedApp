@@ -6,9 +6,8 @@ import {
   FormControl,
   Validators,
 } from '@angular/forms';
-
-//import modelu danych
-import { SpecialistElement } from '../../model/specialist.model';
+import { SpecializationService } from 'src/app/services/specialization.service';
+import { CitiesService } from 'src/app/services/cities.service';
 
 @Component({
   selector: 'app-add-specialist-dialog',
@@ -17,53 +16,41 @@ import { SpecialistElement } from '../../model/specialist.model';
 })
 export class AddSpecialistDialogComponent implements OnInit {
   form!: FormGroup;
-
-  name = new FormControl();
-  surname = new FormControl();
-  specialization = new FormControl();
-  description = new FormControl();
-  city = new FormControl();
   email = new FormControl('', [Validators.required, Validators.email]);
-  password = new FormControl();
   hide = true;
-
-  specializationList: string[] = [
-    'Alergologia',
-    'Dermatologia',
-    'Endokrynologia',
-    'Kardiochirurgia',
-    'Okulistyka',
-    'Onkologia',
-    'Ortopedia',
-    'Pediatria',
-    'Psychiatria',
-  ];
+  specializationList!: string[];
+  citiesList!: string[];
 
   constructor(
     fb: FormBuilder,
+    private specializationService: SpecializationService,
+    private citiesService: CitiesService,
     public dialogRef: MatDialogRef<AddSpecialistDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: SpecialistElement
   ) {
     this.form = fb.group({
-      name: this.name.value,
-      surname: this.surname.value,
-      specialization: this.specialization.value,
-      description: this.description.value,
-      city: this.city.value,
-      email: this.email.value,
-      password: this.password.value,
-      spec: "",
+      name: '',
+      surname: '',
+      specialization: '',
+      description: '',
+      city: '',
+      email: this.email,
+      password: '',
+      spec: '',
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadSpecializations();
+    this.loadCities();
+  }
 
   getErrorMessage() {
     if (this.email.hasError('required')) {
-      return 'You must enter a value';
+      return 'Błędny format e-mail';
     }
 
-    return this.email.hasError('email') ? 'Not a valid email' : '';
+    return this.email.hasError('email') ? 'Błędy adres e-mail' : '';
   }
 
   onNoClick() {
@@ -74,10 +61,43 @@ export class AddSpecialistDialogComponent implements OnInit {
     this.dialogRef.close(this.form.value);
   }
 
+  loadSpecializations() {
+    this.specializationService
+      .getSpecializations()
+      .subscribe((specializationList) => {
+        this.specializationList = specializationList;
+      });
+  }
+
   addSpecialization() {
-    if (this.form.value.spec !== "") {
-      this.specializationList.push(this.form.value.spec);
-      this.form.value.spec = "";
+    if (this.form.value.spec !== '') {
+      this.specializationService
+        .addSpecialization(this.form.value.spec)
+        .subscribe((result) => {
+          if (result) {
+            this.ngOnInit();
+          }
+        });
+      this.form.value.spec = '';
+    }
+  }
+
+  loadCities() {
+    this.citiesService.getCities().subscribe((citiesList) => {
+      this.citiesList = citiesList;
+    });
+  }
+
+  addCity() {
+    if (this.form.value.spec !== '') {
+      this.citiesService
+        .addCity(this.form.value.spec)
+        .subscribe((result) => {
+          if (result) {
+            this.ngOnInit();
+          }
+        });
+      this.form.value.spec = '';
     }
   }
 }

@@ -4,9 +4,6 @@ import { ActivatedRoute } from '@angular/router';
 import { TimetableDialogComponent } from './timetable-dialog/timetable-dialog.component';
 import { TimelineService } from '../../services/timeline.service';
 import { ObjectID } from 'bson';
-
-//import modelu danych
-import { SpecialistElement } from '../../model/specialist.model';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -47,7 +44,7 @@ export class TimetableComponent implements OnInit {
         if (!this.DATA[date]) {
           this.DATA[date] = [];
         }
-        this.DATA[date].push({date: day.date, hour: day.hour, patient: day.patient, description: day.description })
+        this.DATA[date].push({appointmentId: day._id, date: day.date, hour: day.hour, name: day.patient, description: day.description, city: day.city})
       });
     });
   }
@@ -75,11 +72,4 @@ export class TimetableComponent implements OnInit {
       this.ngOnInit();
     });
   }
-}
-
-export interface Appointment {
-  date: Date;
-  hour: string, 
-  patient: string, 
-  description: string, 
 }

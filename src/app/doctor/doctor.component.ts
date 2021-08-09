@@ -2,9 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { LoginStatusService } from './../services/login-status.service';
 import { DoctorService } from '../services/doctor.service';
-import { ObjectID } from 'bson';
-
-
 
 @Component({
   selector: 'app-doctor',
@@ -44,8 +41,9 @@ export class DoctorComponent implements OnInit {
           appointmentId: day._id,
           date: day.date,
           hour: day.hour,
-          patient_name: day.patient,
+          name: day.patient,
           description: day.description,
+          city: day.city,
         });
       });
     });
@@ -57,12 +55,4 @@ export class DoctorComponent implements OnInit {
     });
   }
 
-}
-
-export interface Appointment {
-  appointmentId: string;
-  date: Date;
-  hour: string;
-  patient_name: string;
-  description: string;
 }

@@ -3,14 +3,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { PatientComponent } from './patient/patient.component';
 import { DoctorComponent } from './doctor/doctor.component';
-import { AdminShellComponent } from './admin-shell/admin-shell.component';
 import { HomeComponent } from './home/home.component';
 import { SignupPageComponent } from './signup-page/signup-page.component';
 import { LoginPageComponent } from './login-page/login-page.component';
-import { TimetableComponent } from './admin-shell/timetable/timetable.component';
 import { SearchPageComponent } from './search-page/search-page.component';
 import { MyAppointmentComponent } from './my-appointment/my-appointment.component';
-import { AuthService } from './services/auth.service';
+import { AuthGuard } from './services/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home/pacjent', pathMatch: 'full'},
@@ -19,13 +17,13 @@ const routes: Routes = [
     component: HomeComponent,
     children: [
       { path: 'pacjent', component: PatientComponent },
-      { path: 'lekarz', component: DoctorComponent, canActivate: [AuthService], data: { expectedRole: 'doctor'} },
-      { path: 'myappointment', component: MyAppointmentComponent, canActivate: [AuthService], data: { expectedRole: 'patient'} },
+      { path: 'lekarz', component: DoctorComponent, canActivate: [AuthGuard], data: { expectedRole: 'doctor'} },
+      { path: 'myappointment', component: MyAppointmentComponent, canActivate: [AuthGuard], data: { expectedRole: 'patient'} },
       { path: 'search', component: SearchPageComponent },
     ],
   },
-  { path: 'shell', component: AdminShellComponent, canActivate: [AuthService], data: { expectedRole: 'admin'} },
-  { path: 'shell/timetable/:id', component: TimetableComponent }, 
+  { path: 'shell', loadChildren: () => import('./module/admin-shell/admin-shell.module').then(m => m.AdminShellModule), canActivate: [AuthGuard], data: { expectedRole: 'admin'} },
+  { path: 'shell/timetable/:id', loadChildren: () => import('./module/timetable/timetable.module').then(m => m.TimetableModule) }, 
   { path: 'login', component: LoginPageComponent },
   { path: 'signup', component: SignupPageComponent },
   { path: 'search', component: SearchPageComponent },

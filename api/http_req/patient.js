@@ -23,7 +23,7 @@ router.get("", (req, res) => {
       });
   };
 
-  Timetable.find({ patientId: id })
+  Timetable.find({ patientId: id, date: { $gte: new Date() }})
     .sort({ date: 1 })
     .toArray(async (error, appointment) => {
       if (error) throw error;

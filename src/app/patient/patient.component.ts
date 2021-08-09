@@ -1,11 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  FormControl,
-  Validators,
-} from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { SearchService } from '../services/search.service';
+import { SpecializationService } from '../services/specialization.service';
+import { CitiesService } from '../services/cities.service';
 
 @Component({
   selector: 'app-patient',
@@ -14,68 +11,44 @@ import { SearchService } from '../services/search.service';
 })
 export class PatientComponent implements OnInit {
   form!: FormGroup;
+  cityList!: string[];
+  specializationList!: string[];
+  timeList: string[] = [];
 
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl(),
   });
-
-  specialization = new FormControl();
-  spec = new FormControl();
-  city = new FormControl();
-  time = new FormControl();
-  timeStart = new FormControl();
-  timeEnd = new FormControl();
-  dateStart = new FormControl();
-  dateEnd = new FormControl();
-
-  cityList: string[] = [
-    'Kraków',
-    'Warszawa',
-    'Poznań',
-    'Gdańsk',
-    'Wrocław',
-    'Zakopane',
-  ];
-
-  specializationList: string[] = [
-    'Laryngologia',
-    'Kardiologia',
-    'Foniatria',
-    'Anestezjologia',
-    'Ortopedia',
-    'Dermatologia',
-    'Endokrynologia',
-    'Neurologia',
-  ];
-
-  timeList: string[] = [];
-
-  constructor(fb: FormBuilder, private searchService: SearchService) {
+  
+  constructor(
+    private specializationService: SpecializationService,
+    private citiesService: CitiesService,
+    fb: FormBuilder,
+    private searchService: SearchService
+  ) {
     this.form = fb.group({
-      city: this.city.value,
-      specialization: this.specialization.value,
-      spec: this.spec.value,
-      timeStart: this.timeStart.value,
-      timeEnd: this.timeEnd.value,
-      dateStart: this.dateStart.value,
-      dateEnd: this.dateEnd.value,
+      city: '',
+      specialization: '',
+      spec: '',
+      timeStart: '',
+      timeEnd: '',
+      dateStart: '',
+      dateEnd: '',
     });
   }
 
   ngOnInit(): void {
     this.calculateTime();
+    this.specializationService.getSpecializations().subscribe(specializationList => {
+      this.specializationList = specializationList;
+    })
+    this.citiesService.getCities().subscribe(citiesList => {
+      this.cityList = citiesList;
+    })
   }
 
   sendData() {
     this.searchService.data = this.form.value;
-  }
-
-  addSpecialization() {
-    if (this.form.value.spec !== "") {
-      this.specializationList.push(this.form.value.spec);
-      this.form.value.spec = "";
-    }
   }
 
   calculateTime() {
